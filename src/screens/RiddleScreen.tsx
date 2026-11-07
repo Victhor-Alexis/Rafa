@@ -32,7 +32,7 @@ export function RiddleScreen({ remaining, onSolved }: RiddleScreenProps) {
 
       <p className="game-intro">
         kkkkk eita, Rafa, não tem jeito...<br />
-        Que comecem os jogos. Você tem <strong>3 minutos</strong>.
+        Que comecem os jogos. Você tem <strong>3 dias</strong>.
         Se vacilar, só olhará a terra prometida de longe ;(
       </p>
 
