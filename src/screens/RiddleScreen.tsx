@@ -6,7 +6,7 @@ import { normalizeAnswer } from '../utils/normalizeAnswer';
 
 interface RiddleScreenProps {
   remaining: number;
-  onSolved: () => void;
+  onSolved: (answer: string) => void;
 }
 
 export function RiddleScreen({ remaining, onSolved }: RiddleScreenProps) {
@@ -14,7 +14,7 @@ export function RiddleScreen({ remaining, onSolved }: RiddleScreenProps) {
 
   function verify(value: string) {
     if (normalizeAnswer(value) === SECOND_PASSWORD) {
-      onSolved();
+      onSolved(value);
     } else {
       setError('Ainda não é essa a palavra-chave. Tente novamente!');
     }

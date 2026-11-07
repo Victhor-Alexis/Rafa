@@ -16,7 +16,7 @@ export function WaitingScreen({ remaining }: WaitingScreenProps) {
       </div>
 
       <p className="game-intro">
-        Pior que precisamos de combustível para essa relação mesmo.
+        Gasolina! Pior que precisamos de combustível para essa relação mesmo.
         Brincadeira, maus hábitos kkkkk
       </p>
       <p className="game-intro">
@@ -29,8 +29,12 @@ export function WaitingScreen({ remaining }: WaitingScreenProps) {
       <blockquote className="verse-card">
         <div className="riddle-label">FILIPENSES 4:6–7</div>
         <p>
-          Não andem ansiosos por coisa alguma, mas em tudo, por meio da oração e da súplica, com ação de graças, apresentem os seus pedidos a Deus. Então, a paz de Deus, que excede todo o entendimento, guardará o coração e os pensamentos de vocês em Cristo Jesus.
+          Não deixem que as preocupações dominem vocês. Em todas as situações,
+          apresentem a Deus seus pedidos em oração, com gratidão. A paz de Deus,
+          maior do que nossa compreensão, guardará o coração e os pensamentos
+          de vocês em Cristo Jesus.
         </p>
+        <small>Paráfrase em português · <a href="https://www.bibliaonline.com.br/acf/fp/4/6%2C7" target="_blank" rel="noreferrer">Ler o texto integral na ACF</a></small>
       </blockquote>
     </section>
   );

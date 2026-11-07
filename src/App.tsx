@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Blossoms } from './components/Blossoms';
-import { CHALLENGE_DURATION_SECONDS, MAX_FINAL_ATTEMPTS } from './constants';
 import { useChallengeTimer } from './hooks/useChallengeTimer';
+import { AdminScreen } from './screens/AdminScreen';
 import { EndingScreen } from './screens/EndingScreen';
 import { FinalChallengeScreen } from './screens/FinalChallengeScreen';
 import { LoginScreen } from './screens/LoginScreen';
@@ -9,102 +9,93 @@ import { RiddleScreen } from './screens/RiddleScreen';
 import { SuccessScreen } from './screens/SuccessScreen';
 import { WaitingScreen } from './screens/WaitingScreen';
 import { WarningScreen } from './screens/WarningScreen';
-import { initialSession, readSession, resetSession, writeSession } from './utils/session';
+import { advanceGame, fetchGameSession, isSupabaseConfigured, GameAction } from './services/supabase';
+import { GameSession } from './utils/session';
+
+const POLL_INTERVAL_MS = 2500;
 
 export default function App() {
-  const [session, setSession] = useState(readSession);
-  const { stage, deadline, finalAttempts } = session;
+  const [session, setSession] = useState<GameSession | null>(null);
+  const [error, setError] = useState('');
+  const isAdmin = window.location.pathname.replace(/\/$/, '') === '/admin';
+  const inFlight = useRef(false);
 
-  const expireTimer = useCallback(() => {
-    setSession((current) => {
-      if (current.stage === 'riddle') {
-        return { ...current, stage: 'ending', deadline: null };
-      }
-
-      if (current.stage === 'waiting') {
-        return { ...current, stage: 'final', deadline: null };
-      }
-
-      return current;
-    });
+  const refresh = useCallback(async () => {
+    if (inFlight.current) return;
+    try {
+      const next = await fetchGameSession();
+      setSession(next);
+      setError('');
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Não foi possível carregar o progresso.');
+    }
   }, []);
 
+  useEffect(() => {
+    void refresh();
+    const id = window.setInterval(() => void refresh(), POLL_INTERVAL_MS);
+    const onFocus = () => void refresh();
+    const onVisible = () => { if (document.visibilityState === 'visible') void refresh(); };
+    window.addEventListener('focus', onFocus);
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      window.clearInterval(id);
+      window.removeEventListener('focus', onFocus);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, [refresh]);
+
+  const advance = useCallback(async (action: GameAction, answer = '', date?: string, time?: string) => {
+    if (inFlight.current) return;
+    inFlight.current = true;
+    setError('');
+    try {
+      setSession(await advanceGame(action, answer, date, time));
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Não foi possível salvar o progresso.');
+    } finally {
+      inFlight.current = false;
+    }
+  }, [refresh]);
+
+  const expireTimer = useCallback(() => { void refresh(); }, [refresh]);
+  const stage = session?.stage || 'login';
   const remaining = useChallengeTimer(
-    stage === 'riddle' || stage === 'waiting' ? deadline : null,
+    session && (stage === 'riddle' || stage === 'waiting') ? session.deadline : null,
     expireTimer,
   );
 
-  useEffect(() => {
-    writeSession(session);
-  }, [session]);
-
-  function startChallenge() {
-    setSession({
-      stage: 'riddle',
-      deadline: Date.now() + CHALLENGE_DURATION_SECONDS * 1000,
-      finalAttempts: 0,
-    });
-  }
-
-  function submitFinalAnswer(correct: boolean) {
-    if (correct) {
-      setSession((current) => ({ ...current, stage: 'success' }));
-      return;
-    }
-
-    setSession((current) => {
-      const nextAttempts = current.finalAttempts + 1;
-      return {
-        ...current,
-        finalAttempts: nextAttempts,
-        stage: nextAttempts >= MAX_FINAL_ATTEMPTS ? 'ending' : 'final',
-      };
-    });
-  }
-
-  function restartForDevelopment() {
-    resetSession();
-    setSession({ ...initialSession });
-  }
-
   return (
-    <main className={`page page--${stage}`}>
+    <main className={`page page--${isAdmin ? 'admin' : stage}`}>
       <Blossoms />
       <div className="glow glow-one" aria-hidden="true" />
       <div className="glow glow-two" aria-hidden="true" />
 
-      {stage === 'login' && (
-        <LoginScreen onSuccess={() => setSession((current) => ({ ...current, stage: 'warning' }))} />
-      )}
-      {stage === 'warning' && (
-        <WarningScreen
-          onNo={() => setSession({ ...initialSession })}
-          onYes={startChallenge}
-        />
-      )}
-      {stage === 'riddle' && (
-        <RiddleScreen
-          remaining={remaining}
-          onSolved={() => setSession((current) => {
-            if (current.stage !== 'riddle') return current;
-            if (!current.deadline || Date.now() >= current.deadline) {
-              return { ...current, stage: 'ending', deadline: null };
-            }
-            return { ...current, stage: 'waiting' };
-          })}
-        />
-      )}
-      {stage === 'waiting' && <WaitingScreen remaining={remaining} />}
-      {stage === 'final' && (
-        <FinalChallengeScreen attempts={finalAttempts} onAttempt={submitFinalAnswer} />
-      )}
-      {stage === 'success' && <SuccessScreen />}
-      {stage === 'ending' && <EndingScreen />}
-
-      {import.meta.env.DEV && false && (
-        <button className="dev-reset" onClick={restartForDevelopment} type="button">
-          ↻ Reiniciar teste
-        </button>
+      {!isSupabaseConfigured ? (
+        <section className="panel loading-panel" role="alert">
+          <h2>Configuração pendente</h2>
+          <p>Configure as variáveis VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY na Vercel.</p>
+        </section>
+      ) : isAdmin ? (
+        <AdminScreen session={session} onRefresh={refresh} onReset={(updated) => setSession(updated)} />
+      ) : !session ? (
+        <section className="panel loading-panel" role="status">
+          <p>{error || 'Carregando o desafio...'}</p>
+          {error && <button className="secondary" onClick={() => void refresh()}>Tentar novamente</button>}
+        </section>
+      ) : (
+        <>
+          {stage === 'login' && <LoginScreen onSuccess={(answer) => void advance('login', answer)} />}
+          {stage === 'warning' && <WarningScreen onNo={() => void advance('back')} onYes={() => void advance('start')} />}
+          {stage === 'riddle' && <RiddleScreen remaining={remaining} onSolved={(answer) => void advance('solve_riddle', answer)} />}
+          {stage === 'waiting' && <WaitingScreen remaining={remaining} />}
+          {stage === 'final' && (
+            <FinalChallengeScreen attempts={session.finalAttempts} onAttempt={(answer) => void advance('final_answer', answer)} />
+          )}
+          {stage === 'success' && <SuccessScreen session={session} onBookingSaved={(date, time) => advance('booking_sent', '', date, time)} />}
+          {stage === 'ending' && <EndingScreen />}
+          {error && <p className="sync-error" role="alert">{error}</p>}
+        </>
       )}
     </main>
   );

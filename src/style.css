@@ -3,12 +3,13 @@
 :root {
   font-family: 'DM Sans', sans-serif;
   color: #763b4d;
-  background: #f9d6dd;
+  background: #f9d8df;
   font-synthesis: none;
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 0; }
+body { margin: 0; min-width: 0; background: #f9d8df; }
+#root { min-height: 100dvh; background: #f9d8df; }
 html { -webkit-text-size-adjust: 100%; }
 button, input { font: inherit; }
 button { cursor: pointer; }
@@ -23,7 +24,7 @@ a { color: #a94361; }
   justify-content: center;
   overflow-x: clip;
   padding: 40px 20px;
-  background: radial-gradient(ellipse at 50% 40%, #fff1f0 0%, #f9d6dd 60%, #f9d6dd 100%);
+  background: radial-gradient(ellipse at 50% 40%, #fff1f0 0%, #f9d6dd 53%, #eebac7 100%);
 }
 
 .glow {
@@ -238,3 +239,22 @@ a { color: #a94361; }
   .timer strong { font-size: 23px; }
   .login-panel h1 { font-size: clamp(43px, 14vw, 58px); }
 }
+
+/* A cor sob o formulário acompanha o fundo mesmo em iPhone/Safari. */
+html { min-height: 100%; background: #f9d8df; }
+.page { min-height: 100vh; min-height: 100dvh; isolation: isolate; }
+.rose-quote {
+  max-width: 480px; margin: 22px auto 26px; padding: 0 12px;
+  border: 0; font: italic 500 clamp(17px, 4.3vw, 22px)/1.65 'Playfair Display', Georgia, serif;
+  color: #98516a; text-align: center;
+}
+.admin-panel { max-width: 650px; text-align: left; }
+.admin-panel h2 { font-size: clamp(32px, 8vw, 46px); }
+.admin-panel .primary { margin-top: 12px; }
+.admin-grid { display: grid; gap: 12px; margin: 20px 0; }
+.admin-detail { background: #fff8f9; border: 1px solid #efccd5; border-radius: 15px; padding: 13px; }
+.admin-detail strong { display: block; margin-top: 5px; overflow-wrap: anywhere; }
+.admin-note { color: #a15e73; font-size: 12px; line-height: 1.6; }
+.admin-panel input { width: 100%; padding: 14px; margin: 6px 0 12px; border: 1px solid #e9beca; border-radius: 12px; background: #fff; font-size: 16px; }
+.admin-error { color: #a02948; }
+.loading-panel { padding: 45px 30px; }

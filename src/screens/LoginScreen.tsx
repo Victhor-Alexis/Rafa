@@ -4,7 +4,7 @@ import { HeartDivider } from '../components/HeartDivider';
 import { normalizeAnswer } from '../utils/normalizeAnswer';
 
 interface LoginScreenProps {
-  onSuccess: () => void;
+  onSuccess: (answer: string) => void;
 }
 
 export function LoginScreen({ onSuccess }: LoginScreenProps) {
@@ -16,7 +16,7 @@ export function LoginScreen({ onSuccess }: LoginScreenProps) {
     event.preventDefault();
 
     if (normalizeAnswer(password) === FIRST_PASSWORD) {
-      onSuccess();
+      onSuccess(password);
       return;
     }
 
@@ -25,7 +25,7 @@ export function LoginScreen({ onSuccess }: LoginScreenProps) {
 
   return (
     <section className="panel login-panel" aria-label="Acesso">
-      <div className="eyebrow">PARA UMA PESSOA ESPECIAL</div>
+      <div className="eyebrow">UM CONVITE ESPECIAL</div>
       <h1>Rafaela<br /><em>Miranga</em></h1>
       <HeartDivider />
       <p className="subheading">Algumas surpresas começam com uma senha.</p>

@@ -5,7 +5,7 @@ import { normalizeAnswer } from '../utils/normalizeAnswer';
 
 interface FinalChallengeScreenProps {
   attempts: number;
-  onAttempt: (correct: boolean) => void;
+  onAttempt: (answer: string) => void;
 }
 
 export function FinalChallengeScreen({ attempts, onAttempt }: FinalChallengeScreenProps) {
@@ -15,7 +15,7 @@ export function FinalChallengeScreen({ attempts, onAttempt }: FinalChallengeScre
   function verify(value: string) {
     const correct = normalizeAnswer(value) === FINAL_ANSWER;
     if (!correct) setError('Não foi dessa vez.');
-    onAttempt(correct);
+    onAttempt(value);
   }
 
   return (

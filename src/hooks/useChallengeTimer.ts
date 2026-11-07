@@ -7,10 +7,14 @@ export function useChallengeTimer(deadline: number | null, onExpire: () => void)
   useEffect(() => {
     if (deadline === null) return;
 
+    let expirationNotified = false;
     function update() {
       const seconds = secondsUntil(deadline);
       setRemaining(seconds);
-      if (seconds === 0) onExpire();
+      if (seconds === 0 && !expirationNotified) {
+        expirationNotified = true;
+        onExpire();
+      }
     }
 
     update();

@@ -1,16 +1,22 @@
 import { useMemo, useState } from 'react';
 import { isFormspreeConfigured, submitBooking } from '../services/formspree';
 import { getAppointmentDays } from '../utils/appointments';
+import { GameSession } from '../utils/session';
 
-export function SuccessScreen() {
+interface SuccessScreenProps {
+  session: GameSession;
+  onBookingSaved: (date: string, time: string) => Promise<void>;
+}
+
+export function SuccessScreen({ session, onBookingSaved }: SuccessScreenProps) {
   const days = useMemo(() => getAppointmentDays(), []);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
+  const [selectedDate, setSelectedDate] = useState<string | null>(session.selectedDate);
+  const [selectedTime, setSelectedTime] = useState<string | null>(session.selectedTime);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>(session.bookingSent ? 'sent' : 'idle');
   const [error, setError] = useState<string | null>(null);
 
   const day = days.find((item) => item.isoDate === selectedDate);
-  const isLocked = status === 'sending' || status === 'sent';
+  const isLocked = status === 'sending' || status === 'sent' || session.bookingSent;
 
   function selectDay(isoDate: string) {
     if (isLocked) return;
@@ -31,6 +37,7 @@ export function SuccessScreen() {
         weekday: day.weekday,
         time: selectedTime,
       });
+      await onBookingSaved(day.isoDate, selectedTime);
       setStatus('sent');
     } catch (cause) {
       setStatus('idle');
@@ -45,6 +52,7 @@ export function SuccessScreen() {
         <div className="eyebrow">MISSÃO CUMPRIDA</div>
         <h2>Parabéns,<br /><em>parabéns!</em></h2>
         <p className="game-intro">Se chegou até aqui, merece tudo.</p>
+        <blockquote className="rose-quote">“Foi o tempo que dedicaste à tua rosa que a fez tão importante.”</blockquote>
         <p className="success-instruction">Escolha o dia e horário disponíveis:</p>
       </div>
 
@@ -98,7 +106,7 @@ export function SuccessScreen() {
         <div className="booking-summary">
           <p><strong>Sua escolha:</strong> {day.weekday}, {day.label}, às {selectedTime}.</p>
 
-          {status === 'sent' ? (
+          {status === 'sent' || session.bookingSent ? (
             <p className="booking-confirmation" role="status">
               ♡ Sua escolha foi enviada com sucesso! Agora é só aguardar.
             </p>
