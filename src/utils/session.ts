@@ -8,9 +8,10 @@ export interface GameSession {
   selectedDate: string | null;
   selectedTime: string | null;
   bookingSent: boolean;
+  timerDurationSeconds: number;
 }
 
 export const initialSession: GameSession = {
   stage: 'login', deadline: null, finalAttempts: 0,
-  selectedDate: null, selectedTime: null, bookingSent: false,
+  selectedDate: null, selectedTime: null, bookingSent: false, timerDurationSeconds: 3 * 24 * 60 * 60,
 };

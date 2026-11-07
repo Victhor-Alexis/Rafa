@@ -25,7 +25,7 @@ export function LoginScreen({ onSuccess }: LoginScreenProps) {
 
   return (
     <section className="panel login-panel" aria-label="Acesso">
-      <div className="eyebrow">UM CONVITE ESPECIAL</div>
+      <div className="eyebrow">UMA PESSOA ESPECIAL</div>
       <h1>Rafaela<br /><em>Miranga</em></h1>
       <HeartDivider />
       <p className="subheading">Algumas surpresas começam com uma senha.</p>

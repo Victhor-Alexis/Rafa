@@ -12,6 +12,7 @@ interface RemoteSession {
   selected_date: string | null;
   selected_time: string | null;
   booking_sent: boolean;
+  timer_duration_seconds: number;
 }
 
 function fromRemote(remote: RemoteSession): GameSession {
@@ -22,6 +23,7 @@ function fromRemote(remote: RemoteSession): GameSession {
     selectedDate: remote.selected_date,
     selectedTime: remote.selected_time,
     bookingSent: remote.booking_sent,
+    timerDurationSeconds: remote.timer_duration_seconds,
   };
 }
 
@@ -64,4 +66,16 @@ export async function signInAdmin(email: string, password: string): Promise<stri
 
 export async function resetGlobalSession(accessToken: string): Promise<GameSession> {
   return fromRemote(await post<RemoteSession>('/rest/v1/rpc/rafa_admin_reset', {}, accessToken));
+}
+
+/** Configuração privada; opcionalmente redefine o prazo ativo a partir do horário do servidor. */
+export async function saveAdminTimerDuration(
+  accessToken: string,
+  seconds: number,
+  applyToCurrent: boolean,
+): Promise<GameSession> {
+  return fromRemote(await post<RemoteSession>('/rest/v1/rpc/rafa_admin_set_timer', {
+    p_duration_seconds: seconds,
+    p_apply_to_current: applyToCurrent,
+  }, accessToken));
 }

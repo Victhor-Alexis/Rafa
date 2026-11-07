@@ -1,4 +1,4 @@
-# Rafaela Miranga — versão 7
+# Rafaela Miranga — versão 8
 
 Aplicação React + Vite, com sessão **global** no Supabase, formulário no Formspree e painel de acompanhamento `/admin`.
 
@@ -39,7 +39,7 @@ Envie as alterações para o GitHub e a Vercel fará um novo deploy. `vercel.jso
 ## 4. Funcionamento
 
 - Todos que acessam o link compartilham uma única sessão global.
-- O prazo de 3 minutos é salvo no Supabase: fechar o navegador ou trocar de celular não pausa o relógio.
+- O prazo configurável (inicialmente 3 dias) é salvo no Supabase: fechar o navegador ou trocar de celular não pausa o relógio.
 - Esgotar prazo na charada leva ao encerramento; acertar antes do prazo leva à espera e depois ao desafio musical.
 - No desafio musical, há 3 tentativas globais. A resposta correta leva à agenda.
 - A escolha é enviada primeiro ao Formspree e registrada no Supabase após o envio bem-sucedido.
@@ -50,3 +50,23 @@ Envie as alterações para o GitHub e a Vercel fará um novo deploy. `vercel.jso
 **Limitação conhecida**: se o Formspree confirmar um envio e, logo depois, a gravação no Supabase falhar, o e-mail pode ter sido enviado mesmo que o site mostre erro. Nesse caso, confira o Formspree antes de reenviar. Uma solução rigorosa de envio idempotente exigiria uma função de servidor.
 
 **Testes**: faça o percurso completo em dois dispositivos e teste `/admin` antes de compartilhar o link definitivo.
+
+## 5. Ajustar o tempo pelo painel administrativo (v8)
+
+**Se já executou o SQL da v7**, abra **SQL Editor → New Query** e execute
+`supabase/upgrade_v8_timer.sql` **uma única vez**. Ele preserva o progresso
+atual e adiciona a configuração sem apagar dados. Em uma instalação nova,
+use diretamente `supabase/setup.sql` atualizado.
+
+No endereço `/admin`, entre com sua conta autorizada em `rafa_admins`.
+Escolha **dias, horas e minutos**, de **1 minuto até 30 dias** e clique em
+**Salvar duração**. O valor fica salvo no Supabase e é usado na próxima vez
+que a pessoa iniciar a charada. A configuração padrão é **3 dias**.
+
+A opção **Aplicar também ao cronômetro ativo** redefine o prazo a partir
+**do instante em que salvar** — isto é, substitui o tempo restante pelo total
+informado, somente se a tela atual for `riddle` ou `waiting`. Deixe desmarcada
+para conservar o prazo de uma rodada já iniciada.
+
+Não é necessário mexer nas variáveis de ambiente da Vercel. Atualize o
+GitHub e aguarde o deploy após executar a migração SQL no Supabase.

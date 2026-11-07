@@ -3,13 +3,13 @@
 :root {
   font-family: 'DM Sans', sans-serif;
   color: #763b4d;
-  background: #f9d8df;
+  background: #f9d6dd;
   font-synthesis: none;
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 0; background: #f9d8df; }
-#root { min-height: 100dvh; background: #f9d8df; }
+body { margin: 0; min-width: 0; background: #f9d6dd; }
+#root { min-height: 100dvh; background: #f9d6dd; }
 html { -webkit-text-size-adjust: 100%; }
 button, input { font: inherit; }
 button { cursor: pointer; }
@@ -24,7 +24,7 @@ a { color: #a94361; }
   justify-content: center;
   overflow-x: clip;
   padding: 40px 20px;
-  background: radial-gradient(ellipse at 50% 40%, #fff1f0 0%, #f9d6dd 53%, #eebac7 100%);
+  background: radial-gradient(ellipse at 50% 40%, #fff1f0 0%, #f9d6dd 53%, #f9d6dd 100%);
 }
 
 .glow {
@@ -35,7 +35,7 @@ a { color: #a94361; }
   opacity: .35;
 }
 .glow-one { height: 370px; width: 370px; background: white; top: -140px; right: -100px; }
-.glow-two { height: 320px; width: 320px; background: #ed91aa; bottom: -160px; left: -80px; }
+.glow-two { height: 320px; width: 320px; background: #f9d6dd; bottom: -160px; left: -80px; }
 
 .blossoms { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .flower { position: absolute; color: #d97991; text-shadow: 0 4px 15px #e19bae88; font-size: 65px; opacity: .38; }
@@ -241,7 +241,7 @@ a { color: #a94361; }
 }
 
 /* A cor sob o formulário acompanha o fundo mesmo em iPhone/Safari. */
-html { min-height: 100%; background: #f9d8df; }
+html { min-height: 100%; background: #f9d6dd; }
 .page { min-height: 100vh; min-height: 100dvh; isolation: isolate; }
 .rose-quote {
   max-width: 480px; margin: 22px auto 26px; padding: 0 12px;
@@ -258,3 +258,14 @@ html { min-height: 100%; background: #f9d8df; }
 .admin-panel input { width: 100%; padding: 14px; margin: 6px 0 12px; border: 1px solid #e9beca; border-radius: 12px; background: #fff; font-size: 16px; }
 .admin-error { color: #a02948; }
 .loading-panel { padding: 45px 30px; }
+
+/* Configuração do cronômetro no painel privado */
+.admin-timer-form { margin: 22px 0; padding: 18px; background: #fff8f9; border: 1px solid #efccd5; border-radius: 18px; }
+.admin-timer-form h3 { margin: 0 0 8px; font: 500 23px 'Playfair Display', Georgia, serif; }
+.admin-duration-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.admin-duration-grid label { display: block; min-width: 0; font-size: 13px; font-weight: 600; }
+.admin-duration-grid input { min-width: 0; width: 100%; }
+.admin-checkbox { display: flex; align-items: flex-start; gap: 10px; margin-top: 8px; font-size: 13px; line-height: 1.5; }
+.admin-panel .admin-checkbox input { flex: 0 0 auto; width: 18px; height: 18px; margin: 2px 0 0; accent-color: #a94361; }
+.admin-notice { color: #47744f; font-size: 13px; }
+@media (max-width: 390px) { .admin-timer-form { padding: 12px; } .admin-duration-grid { gap: 7px; } }

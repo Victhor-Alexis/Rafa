@@ -16,7 +16,7 @@ export function WaitingScreen({ remaining }: WaitingScreenProps) {
       </div>
 
       <p className="game-intro">
-        Gasolina! Pior que precisamos de combustível para essa relação mesmo.
+        Pior que precisamos de combustível para essa relação mesmo.
         Brincadeira, maus hábitos kkkkk
       </p>
       <p className="game-intro">

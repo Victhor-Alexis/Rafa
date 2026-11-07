@@ -8,8 +8,13 @@ create table if not exists public.rafa_state (
   selected_date date,
   selected_time time without time zone,
   booking_sent boolean not null default false,
+  timer_duration_seconds integer not null default 259200 check (timer_duration_seconds between 60 and 2592000),
   updated_at timestamptz not null default now()
 );
+
+-- Migração compatível com instalações anteriores à versão 8.
+alter table public.rafa_state
+  add column if not exists timer_duration_seconds integer not null default 259200;
 
 insert into public.rafa_state (id) values (1) on conflict (id) do nothing;
 alter table public.rafa_state enable row level security;
@@ -69,7 +74,7 @@ begin
     update public.rafa_state set stage = 'login', updated_at = now() where id = 1;
 
   elsif p_action = 'start' and v.stage = 'warning' then
-    update public.rafa_state set stage = 'riddle', deadline = now() + interval '3 minutes',
+    update public.rafa_state set stage = 'riddle', deadline = now() + make_interval(secs => v.timer_duration_seconds),
       final_attempts = 0, selected_date = null, selected_time = null,
       booking_sent = false, updated_at = now() where id = 1;
 
@@ -122,6 +127,39 @@ begin
   return v;
 end;
 $$;
+
+-- Somente administradores podem alterar a duração configurada.
+-- Sem p_apply_to_current, um prazo já iniciado continua intacto.
+create or replace function public.rafa_admin_set_timer(
+  p_duration_seconds integer,
+  p_apply_to_current boolean default false
+)
+returns public.rafa_state
+language plpgsql security definer set search_path = ''
+as $$
+declare v public.rafa_state;
+begin
+  if not exists (select 1 from public.rafa_admins where user_id = auth.uid()) then
+    raise exception 'Acesso não autorizado';
+  end if;
+  if p_duration_seconds is null or p_duration_seconds < 60 or p_duration_seconds > 2592000 then
+    raise exception 'Duração deve estar entre 1 minuto e 30 dias';
+  end if;
+  update public.rafa_state
+  set timer_duration_seconds = p_duration_seconds,
+      deadline = case
+        when p_apply_to_current and stage in ('riddle', 'waiting')
+          then now() + make_interval(secs => p_duration_seconds)
+        else deadline
+      end,
+      updated_at = now()
+  where id = 1 returning * into v;
+  return v;
+end;
+$$;
+
+revoke all on function public.rafa_admin_set_timer(integer, boolean) from public;
+grant execute on function public.rafa_admin_set_timer(integer, boolean) to authenticated;
 
 revoke all on function public.rafa_get_state() from public;
 revoke all on function public.rafa_advance(text,text,date,time without time zone) from public;
