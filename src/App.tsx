@@ -87,7 +87,11 @@ export default function App() {
         <>
           {stage === 'login' && <LoginScreen onSuccess={(answer) => void advance('login', answer)} />}
           {stage === 'warning' && <WarningScreen onNo={() => void advance('back')} onYes={() => void advance('start')} />}
-          {stage === 'riddle' && <RiddleScreen remaining={remaining} onSolved={(answer) => void advance('solve_riddle', answer)} />}
+          {stage === 'riddle' && (
+            <RiddleScreen remaining={remaining} deadline={session.deadline}
+              timerDurationSeconds={session.timerDurationSeconds}
+              onSolved={(answer) => void advance('solve_riddle', answer)} />
+          )}
           {stage === 'waiting' && <WaitingScreen remaining={remaining} />}
           {stage === 'final' && (
             <FinalChallengeScreen attempts={session.finalAttempts} onAttempt={(answer) => void advance('final_answer', answer)} />

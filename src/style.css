@@ -299,3 +299,17 @@ html { min-height: 100%; background: #f9d6dd; }
   .admin-attempts-table time { font-size: 11px; white-space: normal; }
   .admin-attempts-pagination .secondary { padding: 8px; }
 }
+
+/* Dicas progressivas da charada; a abertura é independente do jogo. */
+.riddle-hints { display: grid; gap: 14px; margin: 5px 0 25px; }
+.riddle-hint-card { padding: 20px 18px; border: 1px dashed #dda5b6; border-radius: 18px; background: linear-gradient(135deg, #fff2f5, #fce6ed); text-align: center; }
+.riddle-hint-card h3 { margin: 0; font: italic 500 23px/1.4 'Playfair Display', Georgia, serif; color: #a24e69; letter-spacing: -.35px; }
+.riddle-hint-button { display: inline-flex; align-items: center; justify-content: center; margin-top: 14px; min-height: 46px; padding: 12px 18px; font-size: 13px; border-radius: 13px; background: #fffafb; border-color: #dba2b4; box-shadow: 0 4px 10px #a9436108; }
+.riddle-hint-button:focus-visible { outline: 3px solid #d78aa2; outline-offset: 4px; }
+.riddle-hint-message { margin: 17px 0 0; padding: 14px 15px; background: #fffafb; border: 1px solid #ebc4d1; border-radius: 12px; color: #885267; font-size: 14px; line-height: 1.65; text-align: left; }
+@media (max-width: 560px) {
+  .riddle-hint-card { padding: 19px 13px; }
+  .riddle-hint-card h3 { font-size: 21px; }
+  .riddle-hint-button { width: 100%; padding-left: 10px; padding-right: 10px; }
+  .riddle-hint-message { font-size: 13px; padding: 13px 12px; }
+}

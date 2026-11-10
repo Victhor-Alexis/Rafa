@@ -4,14 +4,19 @@ import { KeywordForm } from '../components/KeywordForm';
 import { REFERENCES, SECOND_PASSWORD } from '../constants';
 import { normalizeAnswer } from '../utils/normalizeAnswer';
 import { recordRiddleAttempt } from '../services/supabase';
+import { RiddleHints } from '../components/RiddleHints';
+import { getRiddleHintCount } from '../utils/riddleHints';
 
 interface RiddleScreenProps {
   remaining: number;
+  deadline: number | null;
+  timerDurationSeconds: number;
   onSolved: (answer: string) => void;
 }
 
-export function RiddleScreen({ remaining, onSolved }: RiddleScreenProps) {
+export function RiddleScreen({ remaining, deadline, timerDurationSeconds, onSolved }: RiddleScreenProps) {
   const [error, setError] = useState('');
+  const unlockedHints = getRiddleHintCount(deadline, timerDurationSeconds);
 
   function verify(value: string) {
     // O histórico é independente: falha ou lentidão nunca bloqueia a resposta.
@@ -59,6 +64,7 @@ export function RiddleScreen({ remaining, onSolved }: RiddleScreenProps) {
             </div>
           ))}
         </div>
+        <RiddleHints unlockedCount={unlockedHints} />
         <KeywordForm length={8} onSubmit={verify} error={error} />
       </div>
     </section>

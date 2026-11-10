@@ -122,3 +122,36 @@ npm run build
 Os testes SQL usam um PostgreSQL isolado em memória (PGlite), sem conectar ao
 Supabase de produção, para comparar a sessão completa antes e depois da
 migração, do registro e da leitura do histórico.
+
+## 7. Dicas progressivas na charada
+
+Na `RiddleScreen`, abaixo das referências e antes do campo da palavra-chave:
+
+- Após **24 horas**: “Pois é, já se passou um dia...” e o botão
+  “Preciso de uma diquinha 🐔”. Ao clicar, aparece “Preste atenção ao início
+  de cada versículo e siga a ordem das referências.”
+- Após **48 horas**: “Dois dias...” e o botão “Diquinha 2💅”. Ao clicar,
+  aparece “A frase formada pela charada dos versos foi escrita por você,
+  talvez só precise se lembrar do que estava falando”.
+
+A primeira dica permanece disponível quando a segunda é liberada. Cada texto
+fica escondido até o respectivo clique. Abrir as dicas só muda a interface
+local, sem novas requisições, registros de tentativas ou alterações na sessão.
+
+Essa atualização **não exige SQL nem novas variáveis de ambiente**. Basta
+publicar o código pelo fluxo normal da Vercel. Uma aba já aberta precisa
+carregar a versão nova. O prazo absoluto continua o mesmo: a publicação e
+a recarga não reiniciam nem prolongam a rodada. As dicas já vencidas ficam
+disponíveis imediatamente, sem esperar mais 24 ou 48 horas desde a atualização.
+
+O início é calculado como `deadline - timer_duration_seconds`. Isso corresponde
+ao início da rodada atual, cuja duração foi mantida desde o começo. O banco
+antigo não guarda uma data de início separada: alterar apenas a duração no
+admin durante uma rodada também muda os horários calculados das dicas, mesmo
+se o prazo ativo não for alterado. Para reconstrução independente de futuras
+edições, seria necessário guardar o início original no banco.
+
+As dicas só são exibidas enquanto a charada tem prazo válido e não venceu.
+O temporizador existente atualiza sua liberação sem recarregar a página.
+Os testes de cálculo cobrem os limites exatos de 24 e 48 horas, recarga e
+prazos ausentes, inválidos ou vencidos.
