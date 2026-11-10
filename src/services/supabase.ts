@@ -79,3 +79,25 @@ export async function saveAdminTimerDuration(
     p_apply_to_current: applyToCurrent,
   }, accessToken));
 }
+
+export interface RiddleAttempt {
+  id: number;
+  answer: string;
+  created_at: string;
+}
+
+export interface RiddleAttemptsPage {
+  total: number;
+  attempts: RiddleAttempt[];
+}
+
+/** Histórico separado da sessão: não avança etapas nem altera o cronômetro. */
+export async function recordRiddleAttempt(answer: string): Promise<void> {
+  await post('/rest/v1/rpc/rafa_record_riddle_attempt', { p_answer: answer });
+}
+
+export async function fetchRiddleAttempts(accessToken: string, offset = 0): Promise<RiddleAttemptsPage> {
+  return post<RiddleAttemptsPage>('/rest/v1/rpc/rafa_admin_riddle_attempts', {
+    p_offset: offset,
+  }, accessToken);
+}
