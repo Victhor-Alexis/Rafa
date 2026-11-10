@@ -1,4 +1,4 @@
-# Rafaela Miranga — versão 8
+# Rafaela Miranga — versão 9
 
 Aplicação React + Vite, com sessão **global** no Supabase, formulário no Formspree e painel de acompanhamento `/admin`.
 
@@ -70,3 +70,55 @@ para conservar o prazo de uma rodada já iniciada.
 
 Não é necessário mexer nas variáveis de ambiente da Vercel. Atualize o
 GitHub e aguarde o deploy após executar a migração SQL no Supabase.
+
+## 6. Histórico das palavras-chave da charada (v9)
+
+O `/admin` mostra o total de tentativas registradas na charada bíblica e as
+palavras enviadas, com data e horário de São Paulo, em páginas de 50 registros.
+As tentativas do desafio musical continuam no indicador separado de 3 tentativas.
+O histórico só pode ser consultado por uma conta autorizada em `rafa_admins`.
+
+### Atualizar com uma rodada já iniciada
+
+1. No Supabase, execute **somente** `supabase/upgrade_v9_riddle_attempts.sql`.
+   Essa migração adiciona uma tabela e duas funções novas. Não modifica
+   `rafa_state`, `rafa_get_state`, `rafa_advance`, o prazo ou a configuração
+   do temporizador. Pode ser executada novamente sem apagar o histórico.
+2. Publique o código atualizado na Vercel pelo fluxo normal do GitHub.
+   Não é necessário mudar variáveis de ambiente, reiniciar o jogo ou salvar
+   uma nova duração no painel. Não execute os scripts de instalação ou
+   migração de versões anteriores para instalar esta funcionalidade.
+3. Uma aba do jogo já aberta precisa carregar a versão nova para começar a
+   registrar as tentativas. Recarregar a página mantém a etapa e a mesma data
+   de vencimento salva no Supabase; o tempo continua passando normalmente.
+
+Para conferir a rodada antes e depois da migração, faça a consulta abaixo no
+SQL Editor. Ela apenas lê os dados; não use `rafa_get_state()` para essa
+comparação, pois essa função faz as transições normais quando o prazo acaba.
+
+```sql
+select * from public.rafa_state where id = 1;
+```
+
+Cada confirmação válida do formulário da charada tenta registrar o texto
+enviado, preservando maiúsculas e minúsculas. Digitação e respostas incompletas
+não contam. O registro acontece em paralelo: uma falha de rede ou a ausência da
+migração não bloqueia a resposta, o acerto nem a contagem regressiva. Por isso,
+o painel contabiliza os envios que o servidor recebeu, e não garante registro
+de envios feitos sem conexão. O prazo continua vencendo na data original.
+
+Respostas erradas anteriores à atualização **não podem ser recuperadas**:
+eram verificadas apenas no navegador. O histórico começa após a atualização,
+é acumulado desde então e permanece salvo mesmo após o reinício de uma rodada.
+
+### Verificar a preservação do progresso
+
+```bash
+npm test
+npx tsc --noEmit
+npm run build
+```
+
+Os testes SQL usam um PostgreSQL isolado em memória (PGlite), sem conectar ao
+Supabase de produção, para comparar a sessão completa antes e depois da
+migração, do registro e da leitura do histórico.

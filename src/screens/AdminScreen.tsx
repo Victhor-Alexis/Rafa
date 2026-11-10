@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
+import { AdminRiddleAttempts } from '../components/AdminRiddleAttempts';
 import { GameSession } from '../utils/session';
 import { resetGlobalSession, saveAdminTimerDuration, signInAdmin } from '../services/supabase';
 
@@ -100,10 +101,11 @@ export function AdminScreen({ session, onRefresh, onReset }: AdminScreenProps) {
           <div className="admin-grid">
             <div className="admin-detail">Etapa atual<strong>{session ? STAGES[session.stage] : 'Carregando...'}</strong></div>
             <div className="admin-detail">Prazo do cronômetro<strong>{session?.deadline ? new Date(session.deadline).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) : 'Não há prazo ativo'}</strong></div>
-            <div className="admin-detail">Tentativas usadas<strong>{session?.finalAttempts ?? '—'} de 3</strong></div>
+            <div className="admin-detail">Tentativas do desafio musical<strong>{session?.finalAttempts ?? '—'} de 3</strong></div>
             <div className="admin-detail">Horário escolhido<strong>{session?.selectedDate && session?.selectedTime ? `${session.selectedDate} às ${session.selectedTime}` : 'Ainda não escolhido'}</strong></div>
             <div className="admin-detail">Registro enviado<strong>{session?.bookingSent ? 'Sim' : 'Ainda não'}</strong></div>
           </div>
+          <AdminRiddleAttempts accessToken={accessToken} />
           <form className="admin-timer-form" onSubmit={saveTimer}>
             <h3>Configurar temporizador</h3>
             <p className="admin-note">Esta duração ficará salva no Supabase e será usada quando a charada começar.</p>

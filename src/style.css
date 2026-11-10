@@ -269,3 +269,33 @@ html { min-height: 100%; background: #f9d6dd; }
 .admin-panel .admin-checkbox input { flex: 0 0 auto; width: 18px; height: 18px; margin: 2px 0 0; accent-color: #a94361; }
 .admin-notice { color: #47744f; font-size: 13px; }
 @media (max-width: 390px) { .admin-timer-form { padding: 12px; } .admin-duration-grid { gap: 7px; } }
+
+.admin-attempts { margin: 22px 0; padding: 18px; background: #fff8f9; border: 1px solid #efccd5; border-radius: 18px; }
+.admin-attempts-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.admin-attempts-heading h3 { margin: 0 0 8px; font: 500 23px 'Playfair Display', Georgia, serif; }
+.admin-attempts-heading p { margin: 0; }
+.admin-attempts-total { flex: 0 0 auto; max-width: 118px; padding: 10px 12px; border: 1px solid #efccd5; border-radius: 14px; text-align: center; background: #fff; }
+.admin-attempts-total strong { display: block; color: #a94361; font-size: 28px; line-height: 1.1; }
+.admin-attempts-total span { display: block; margin-top: 5px; color: #a15e73; font-size: 11px; line-height: 1.4; }
+.admin-attempts-table-wrap { margin-top: 18px; overflow-x: auto; }
+.admin-attempts-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+.admin-attempts-table th { color: #a15e73; font-size: 11px; font-weight: 600; }
+.admin-attempts-table th, .admin-attempts-table td { padding: 11px 8px; border-bottom: 1px solid #efccd5; vertical-align: top; }
+.admin-attempts-table th:first-child, .admin-attempts-table td:first-child { padding-left: 0; }
+.admin-attempts-table td:first-child { font-weight: 600; overflow-wrap: anywhere; }
+.admin-attempts-table th:last-child, .admin-attempts-table td:last-child { padding-right: 0; }
+.admin-attempts-table time { white-space: nowrap; font-size: 12px; }
+.admin-attempts-pagination { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 15px; }
+.admin-attempts-pagination .secondary, .admin-attempts-error .secondary { min-height: 40px; padding: 9px 12px; font-size: 12px; }
+.admin-attempts-pagination .admin-note { margin: 0; text-align: center; }
+.admin-attempts-footnote { margin: 16px 0 0; }
+.admin-attempts-error .admin-error { font-size: 13px; line-height: 1.5; }
+@media (max-width: 390px) {
+  .admin-attempts { padding: 12px; }
+  .admin-attempts-heading { gap: 10px; }
+  .admin-attempts-heading h3 { font-size: 21px; }
+  .admin-attempts-total { max-width: 92px; padding: 8px; }
+  .admin-attempts-table th, .admin-attempts-table td { padding: 10px 4px; }
+  .admin-attempts-table time { font-size: 11px; white-space: normal; }
+  .admin-attempts-pagination .secondary { padding: 8px; }
+}

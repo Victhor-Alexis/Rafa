@@ -3,6 +3,7 @@ import { Countdown } from '../components/Countdown';
 import { KeywordForm } from '../components/KeywordForm';
 import { REFERENCES, SECOND_PASSWORD } from '../constants';
 import { normalizeAnswer } from '../utils/normalizeAnswer';
+import { recordRiddleAttempt } from '../services/supabase';
 
 interface RiddleScreenProps {
   remaining: number;
@@ -13,6 +14,8 @@ export function RiddleScreen({ remaining, onSolved }: RiddleScreenProps) {
   const [error, setError] = useState('');
 
   function verify(value: string) {
+    // O histórico é independente: falha ou lentidão nunca bloqueia a resposta.
+    void recordRiddleAttempt(value).catch(() => {});
     if (normalizeAnswer(value) === SECOND_PASSWORD) {
       onSolved(value);
     } else {
