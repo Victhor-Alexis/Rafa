@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f9d6dd">
+<title>Rafa — prévia da diquinha</title>
+<style>
+:root {
+  font-family: 'DM Sans', sans-serif;
+  color: #763b4d;
+  background: #f9d6dd;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 0; background: #f9d6dd; }
+#root { min-height: 100dvh; background: #f9d6dd; }
+html { -webkit-text-size-adjust: 100%; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+a { color: #a94361; }
+
+.page {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: clip;
+  padding: 40px 20px;
+  background: radial-gradient(ellipse at 50% 40%, #fff1f0 0%, #f9d6dd 53%, #f9d6dd 100%);
+}
+
+.glow {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(35px);
+  opacity: .35;
+}
+.glow-one { height: 370px; width: 370px; background: white; top: -140px; right: -100px; }
+.glow-two { height: 320px; width: 320px; background: #f9d6dd; bottom: -160px; left: -80px; }
+
+.blossoms { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.flower { position: absolute; color: #d97991; text-shadow: 0 4px 15px #e19bae88; font-size: 65px; opacity: .38; }
+.f1 { top: -12px; left: 2%; font-size: 145px; transform: rotate(-20deg); }
+.f2 { top: 7%; left: 11%; font-size: 64px; }
+.f3 { top: 19%; left: -18px; font-size: 80px; }
+.f4 { bottom: 3%; right: 3%; font-size: 160px; transform: rotate(15deg); }
+.f5 { bottom: 18%; right: -28px; font-size: 100px; }
+.f6 { bottom: -25px; right: 19%; font-size: 88px; }
+.f7 { top: 5%; right: 10%; font-size: 38px; opacity: .18; }
+.f8 { bottom: 7%; left: 7%; font-size: 33px; opacity: .18; }
+
+.panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 520px);
+  padding: 55px 56px 35px;
+  background: linear-gradient(138deg, #fffaf9d9, #ffe9ecdc);
+  border: 1px solid #ffffffb8;
+  border-radius: 32px;
+  box-shadow: 0 28px 80px #9f46642b, 0 4px 20px #a44f6712;
+  backdrop-filter: blur(12px);
+  text-align: center;
+}
+
+.eyebrow { font-size: 11px; letter-spacing: 3px; font-weight: 700; color: #ba6d84; }
+.login-panel h1, .panel h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(52px, 8vw, 76px);
+  line-height: 1.06;
+  color: #a84360;
+  font-weight: 500;
+  margin: 28px 0 14px;
+  letter-spacing: -1.8px;
+}
+.panel h2 { font-size: clamp(42px, 7vw, 60px); margin: 20px 0; }
+.panel h1 em, .panel h2 em { font-weight: 500; }
+.heart-divider { display: flex; align-items: center; gap: 13px; justify-content: center; font-size: 33px; color: #c36b83; }
+.heart-divider span { display: block; width: 72px; height: 1px; background: linear-gradient(to right, transparent, #d995a8); }
+.heart-divider span:last-child { transform: rotate(180deg); }
+.subheading { font-size: 14px; color: #a97885; margin: 16px 0 35px; }
+.field-label { display: block; text-align: left; font-size: 11px; letter-spacing: 1.8px; font-weight: 700; color: #a15e73; margin-bottom: 10px; }
+
+.input-wrap { display: flex; align-items: center; gap: 12px; border: 1px solid #ecc5ce; border-radius: 17px; padding: 0 16px; background: #fff7f8; height: 57px; }
+.input-wrap > span { font-size: 20px; color: #af6579; }
+.input-wrap input { width: 100%; min-width: 0; outline: none; border: 0; background: transparent; font-size: 15px; color: #71354a; }
+.input-wrap input::placeholder { color: #ca9aaa; }
+.eye { border: 0; background: transparent; color: #a15e73; font-size: 12px; }
+
+.primary, .secondary { border-radius: 16px; min-height: 56px; padding: 14px 22px; font-weight: 700; border: 1px solid transparent; transition: transform .18s, box-shadow .18s; }
+.primary:not(:disabled):hover, .secondary:hover { transform: translateY(-2px); }
+.primary { color: white; background: linear-gradient(110deg, #cc718b, #a94361); box-shadow: 0 12px 24px #a9436130; }
+.login-panel .primary { width: 100%; margin-top: 18px; }
+.primary span { margin-left: 10px; }
+.secondary { color: #a84f68; background: #fff8f9; border-color: #e9beca; }
+.footer-note { color: #bc8b99; font-size: 12px; margin-top: 32px; }
+.error { color: #af2948; font-size: 13px; text-align: left; margin: 9px 0 0; }
+
+.seal { width: 65px; height: 65px; border-radius: 50%; display: grid; place-items: center; background: #f5d3dd; color: #af536d; font-size: 30px; margin: 0 auto 25px; }
+.warning-quote { font: italic 21px/1.65 'Playfair Display', serif; color: #875367; margin: 27px 0; }
+.question { font-size: 13px; letter-spacing: .6px; font-weight: 700; color: #a96379; margin-bottom: 21px; }
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.game-panel { width: min(100%, 760px); text-align: left; padding: 36px 42px; }
+.game-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.game-head h2 { font-size: clamp(36px, 5vw, 49px); margin: 12px 0 0; }
+.timer { flex-shrink: 0; background: #fff8f8; border: 1px solid #eab9c7; padding: 14px 17px; border-radius: 20px; text-align: center; box-shadow: 0 6px 16px #a9436110; }
+.timer small { display: block; font-size: 9px; letter-spacing: 1px; color: #ae7282; font-weight: 700; }
+.timer strong { display: block; font-variant-numeric: tabular-nums; font-size: 32px; letter-spacing: 1px; color: #a94361; margin-top: 4px; }
+.timer.urgent strong { color: #d33150; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: .5; } }
+.game-intro { line-height: 1.75; color: #835064; font-size: 15px; margin: 21px 0 25px; }
+.riddle { border-radius: 22px; padding: 27px; background: #fff9f9d9; border: 1px solid #efccd5; }
+.riddle-label { font-size: 11px; letter-spacing: 2px; font-weight: 700; color: #c16e85; }
+.riddle-label span { float: right; }
+.riddle-hint { font: italic 20px/1.6 'Playfair Display', serif; text-align: center; color: #904b61; margin: 20px auto; max-width: 540px; }
+.version { text-align: center; color: #be8a99; font-size: 11px; margin-bottom: 23px; }
+
+/* As referências parecem uma frase; as marcas ficam acima de cada palavra. */
+.refs { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 0 0 28px; }
+.refs-line { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 12px; row-gap: 9px; max-width: 100%; }
+.ref { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; color: #99546b; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.ref-mark { font-size: 15px; line-height: 16px; height: 16px; color: #b65170; font-weight: 700; }
+
+.keyword-label { display: block; font-weight: 700; color: #9e5068; font-size: 13px; margin-bottom: 10px; }
+.keyword { display: block; width: 100%; height: 50px; border-radius: 12px; outline: none; border: 1px solid #e2afbf; background: #fff; color: #8a425a; padding: 0 17px; font-size: 18px; letter-spacing: 2px; text-align: center; }
+.keyword:focus, .input-wrap:focus-within { border-color: #bb647e; box-shadow: 0 0 0 3px #d88ba627; }
+.submit-keyword { width: 100%; margin-top: 14px; }
+
+.waiting-emphasis { font-weight: 700; }
+.verse-card { margin: 20px 0 0; padding: 25px; border-radius: 20px; background: #fff9f9d9; border: 1px solid #efccd5; }
+.verse-card p { font: italic 19px/1.65 'Playfair Display', serif; color: #904b61; }
+.verse-card small { font-size: 12px; color: #a57483; }
+.final-panel h2 { font-size: 46px; }
+.music-hint { font-size: clamp(15px, 3vw, 22px); text-align: center; font-weight: 600; letter-spacing: .7px; color: #91455e; margin: 25px 0; }
+.attempts { font-size: 13px; text-align: center; color: #a15e73; }
+
+.locked-panel { max-width: 560px; }
+.locked-panel h2 { font-size: 45px; }
+.locked-panel p { color: #865e6d; line-height: 1.75; }
+.mountain-illustration { height: 210px; border-radius: 18px; position: relative; overflow: hidden; background: linear-gradient(#ecc8b7, #f9dfc9); }
+.sun { width: 80px; height: 80px; background: #fff0c7; border-radius: 50%; position: absolute; top: 35px; right: 28%; box-shadow: 0 0 35px #fff1c2; }
+.ridge { position: absolute; bottom: -35px; height: 145px; width: 120%; left: -10%; clip-path: polygon(0 70%, 20% 28%, 42% 66%, 60% 17%, 77% 55%, 100% 30%, 100% 100%, 0 100%); }
+.ridge-far { background: #b99b9a; bottom: 0; }
+.ridge-near { background: #7e6870; transform: translateY(45px) scale(1.1); }
+.moses { position: absolute; bottom: 20px; left: 20%; font-size: 80px; color: #4b3b44; transform: scaleX(.75); }
+.dev-reset { position: fixed; bottom: 12px; right: 12px; z-index: 5; border: 1px solid #bf8395; background: #fff6f8; color: #9e5068; padding: 8px 12px; border-radius: 30px; font-size: 12px; opacity: .85; }
+
+@media (max-width: 560px) {
+  .page { padding: 22px 13px; }
+  .panel { padding: 38px 25px 28px; border-radius: 25px; }
+  .login-panel h1 { font-size: 58px; }
+  .game-panel { padding: 24px 16px; }
+  .game-head h2 { font-size: 36px; }
+  .timer { padding: 10px; }
+  .timer strong { font-size: 27px; }
+  .timer small { font-size: 8px; }
+  .riddle { padding: 22px 15px; }
+  .riddle-hint { font-size: 18px; }
+  .choices { gap: 8px; }
+  .choices button { padding: 10px; font-size: 12px; }
+  .refs-line { column-gap: 6px; row-gap: 0; flex-wrap: nowrap; }
+  .ref { font-size: clamp(8px, 2.45vw, 11px); }
+  .f1, .f4 { font-size: 100px; }
+  .verse-card { padding: 18px; }
+}
+
+/* Entrada de palavra: um input real, uma célula visual por letra. */
+.keyword-count { font-weight: 400; letter-spacing: 0; color: #ae7686; margin-left: 4px; }
+.keyword-entry { position: relative; cursor: text; padding: 11px 3px 15px; }
+.keyword-entry:focus-within { background: #fff8fa; border-radius: 14px; outline: 2px solid #e5b3c0; }
+.keyword-native-input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; color: transparent; caret-color: transparent; cursor: text; }
+.keyword-slots { display: flex; justify-content: center; gap: clamp(5px, 1.9vw, 14px); pointer-events: none; }
+.keyword-slot { width: clamp(23px, 5.4vw, 43px); display: flex; flex-direction: column; align-items: stretch; gap: 4px; }
+.keyword-letter { display: block; text-align: center; height: 36px; line-height: 36px; font-size: clamp(18px, 4vw, 26px); font-weight: 600; color: #974861; text-transform: uppercase; }
+.keyword-underline { display: block; height: 3px; width: 100%; border-radius: 2px; background: #c57690; }
+.keyword-slot--next .keyword-underline { background: #a94361; box-shadow: 0 2px 7px #b05b7670; }
+
+/* Agenda ilustrativa da tela de parabéns. */
+.success-panel { max-width: 760px; }
+.success-heading { text-align: center; }
+.success-heading h2 { margin: 10px 0; }
+.success-heading .seal { margin-bottom: 12px; }
+.success-heading .game-intro { margin: 16px 0 8px; font-size: 17px; }
+.success-instruction { font-size: 17px; font-weight: 700; color: #a94b69; margin: 18px 0 24px; }
+.booking-section { margin-top: 25px; padding: 22px; border-radius: 22px; background: #fff8fae0; border: 1px solid #efccd5; }
+.booking-section h3 { margin: 0; font: 500 22px 'Playfair Display', Georgia, serif; color: #99516b; }
+.booking-caption { color: #aa7888; font-size: 12px; margin: 7px 0 16px; }
+.day-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; max-height: 270px; overflow-y: auto; padding: 2px; }
+.option-button { border: 1px solid #e8beca; border-radius: 13px; background: #fff; color: #8e4c62; min-width: 0; cursor: pointer; transition: background .15s, border-color .15s; }
+.option-button:hover { border-color: #b86480; background: #fff1f5; }
+.option-button.selected { background: #a94361; border-color: #a94361; color: #fff; }
+.day-option { padding: 12px 5px; display: flex; flex-direction: column; gap: 4px; text-align: center; }
+.day-name { text-transform: capitalize; font-size: 11px; }
+.day-option strong { font-size: 14px; }
+.time-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.time-option { padding: 12px 2px; font-size: 13px; font-weight: 700; }
+.booking-summary { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 25px 0 6px; text-align: center; }
+.booking-summary p { margin: 0; color: #8e4c62; }
+.booking-summary small { max-width: 420px; font-size: 11px; line-height: 1.5; color: #af8795; }
+.booking-confirmation { font-weight: 700; color: #9b536d !important; }
+@media (max-width: 560px) {
+  .booking-section { padding: 15px 12px; }
+  .day-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .time-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .keyword-slots { gap: 5px; }
+}
+
+/* Envio remoto de reserva */
+.option-button:disabled { cursor: default; opacity: .7; }
+.booking-summary .primary:disabled { cursor: not-allowed; opacity: .6; }
+.booking-error { color: #a02948 !important; font-size: 13px; line-height: 1.5; }
+
+/* iPhone: grupos preservados, sem quebra interna, com espaço seguro para notch e home indicator. */
+@media (max-width: 560px) {
+  .page {
+    padding-top: max(22px, env(safe-area-inset-top));
+    padding-right: max(10px, env(safe-area-inset-right));
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+    padding-left: max(10px, env(safe-area-inset-left));
+    align-items: flex-start;
+  }
+  .panel { margin: auto 0; max-width: 100%; }
+  .game-panel { padding: 24px 12px; }
+  .riddle { padding: 20px 10px; }
+  .refs { width: 100%; gap: 13px; }
+  .refs-line { width: 100%; flex-wrap: nowrap; gap: clamp(3px, 1.2vw, 8px); }
+  .ref { min-width: 0; font-size: clamp(8px, 2.45vw, 11px); }
+  .ref-mark { height: 15px; line-height: 15px; }
+  .game-intro { overflow-wrap: anywhere; }
+  .game-head h2 { font-size: clamp(29px, 8.8vw, 36px); }
+  .timer { padding: 9px; }
+  .keyword-native-input { font-size: 16px; }
+  .dev-reset { bottom: max(12px, env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 360px) {
+  .refs-line { gap: 3px; }
+  .ref { font-size: 8px; letter-spacing: -0.15px; }
+  .game-head { gap: 8px; }
+  .timer strong { font-size: 23px; }
+  .login-panel h1 { font-size: clamp(43px, 14vw, 58px); }
+}
+
+/* A cor sob o formulário acompanha o fundo mesmo em iPhone/Safari. */
+html { min-height: 100%; background: #f9d6dd; }
+.page { min-height: 100vh; min-height: 100dvh; isolation: isolate; }
+.rose-quote {
+  max-width: 480px; margin: 22px auto 26px; padding: 0 12px;
+  border: 0; font: italic 500 clamp(17px, 4.3vw, 22px)/1.65 'Playfair Display', Georgia, serif;
+  color: #98516a; text-align: center;
+}
+.admin-panel { max-width: 650px; text-align: left; }
+.admin-panel h2 { font-size: clamp(32px, 8vw, 46px); }
+.admin-panel .primary { margin-top: 12px; }
+.admin-grid { display: grid; gap: 12px; margin: 20px 0; }
+.admin-detail { background: #fff8f9; border: 1px solid #efccd5; border-radius: 15px; padding: 13px; }
+.admin-detail strong { display: block; margin-top: 5px; overflow-wrap: anywhere; }
+.admin-note { color: #a15e73; font-size: 12px; line-height: 1.6; }
+.admin-panel input { width: 100%; padding: 14px; margin: 6px 0 12px; border: 1px solid #e9beca; border-radius: 12px; background: #fff; font-size: 16px; }
+.admin-error { color: #a02948; }
+.loading-panel { padding: 45px 30px; }
+
+/* Configuração do cronômetro no painel privado */
+.admin-timer-form { margin: 22px 0; padding: 18px; background: #fff8f9; border: 1px solid #efccd5; border-radius: 18px; }
+.admin-timer-form h3 { margin: 0 0 8px; font: 500 23px 'Playfair Display', Georgia, serif; }
+.admin-duration-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.admin-duration-grid label { display: block; min-width: 0; font-size: 13px; font-weight: 600; }
+.admin-duration-grid input { min-width: 0; width: 100%; }
+.admin-checkbox { display: flex; align-items: flex-start; gap: 10px; margin-top: 8px; font-size: 13px; line-height: 1.5; }
+.admin-panel .admin-checkbox input { flex: 0 0 auto; width: 18px; height: 18px; margin: 2px 0 0; accent-color: #a94361; }
+.admin-notice { color: #47744f; font-size: 13px; }
+@media (max-width: 390px) { .admin-timer-form { padding: 12px; } .admin-duration-grid { gap: 7px; } }
+
+.admin-attempts { margin: 22px 0; padding: 18px; background: #fff8f9; border: 1px solid #efccd5; border-radius: 18px; }
+.admin-attempts-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.admin-attempts-heading h3 { margin: 0 0 8px; font: 500 23px 'Playfair Display', Georgia, serif; }
+.admin-attempts-heading p { margin: 0; }
+.admin-attempts-total { flex: 0 0 auto; max-width: 118px; padding: 10px 12px; border: 1px solid #efccd5; border-radius: 14px; text-align: center; background: #fff; }
+.admin-attempts-total strong { display: block; color: #a94361; font-size: 28px; line-height: 1.1; }
+.admin-attempts-total span { display: block; margin-top: 5px; color: #a15e73; font-size: 11px; line-height: 1.4; }
+.admin-attempts-table-wrap { margin-top: 18px; overflow-x: auto; }
+.admin-attempts-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+.admin-attempts-table th { color: #a15e73; font-size: 11px; font-weight: 600; }
+.admin-attempts-table th, .admin-attempts-table td { padding: 11px 8px; border-bottom: 1px solid #efccd5; vertical-align: top; }
+.admin-attempts-table th:first-child, .admin-attempts-table td:first-child { padding-left: 0; }
+.admin-attempts-table td:first-child { font-weight: 600; overflow-wrap: anywhere; }
+.admin-attempts-table th:last-child, .admin-attempts-table td:last-child { padding-right: 0; }
+.admin-attempts-table time { white-space: nowrap; font-size: 12px; }
+.admin-attempts-pagination { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 15px; }
+.admin-attempts-pagination .secondary, .admin-attempts-error .secondary { min-height: 40px; padding: 9px 12px; font-size: 12px; }
+.admin-attempts-pagination .admin-note { margin: 0; text-align: center; }
+.admin-attempts-footnote { margin: 16px 0 0; }
+.admin-attempts-error .admin-error { font-size: 13px; line-height: 1.5; }
+@media (max-width: 390px) {
+  .admin-attempts { padding: 12px; }
+  .admin-attempts-heading { gap: 10px; }
+  .admin-attempts-heading h3 { font-size: 21px; }
+  .admin-attempts-total { max-width: 92px; padding: 8px; }
+  .admin-attempts-table th, .admin-attempts-table td { padding: 10px 4px; }
+  .admin-attempts-table time { font-size: 11px; white-space: normal; }
+  .admin-attempts-pagination .secondary { padding: 8px; }
+}
+/* Local-only preview of the day-one hint, in the existing visual language. */
+:root { font-family: 'DM Sans', Arial, sans-serif; }
+.day-one-hint { margin: 5px 0 25px; padding: 20px 18px; border: 1px dashed #dda5b6; border-radius: 18px; background: linear-gradient(135deg, #fff2f5, #fce6ed); text-align: center; }
+.day-one-hint h3 { margin: 0; font: italic 500 23px/1.4 'Playfair Display', Georgia, serif; color: #a24e69; letter-spacing: -.35px; }
+.hint-button { display: inline-flex; align-items: center; justify-content: center; margin-top: 14px; min-height: 46px; padding: 12px 18px; font-size: 13px; border-radius: 13px; background: #fffafb; border-color: #dba2b4; box-shadow: 0 4px 10px #a9436108; }
+.hint-button:focus-visible { outline: 3px solid #d78aa2; outline-offset: 4px; }
+.revealed-hint { margin: 17px 0 0; padding: 14px 15px; background: #fffafb; border: 1px solid #ebc4d1; border-radius: 12px; color: #885267; font-size: 14px; line-height: 1.65; text-align: left; }
+[hidden] { display: none !important; }
+@media (max-width: 560px) {
+  .day-one-hint { padding: 19px 13px; }
+  .day-one-hint h3 { font-size: 21px; }
+  .hint-button { width: 100%; padding-left: 10px; padding-right: 10px; }
+  .revealed-hint { font-size: 13px; padding: 13px 12px; }
+}
+</style>
+</head>
+<body>
+<main class="page page--riddle">
+<div class="blossoms" aria-hidden="true"><span class="flower f1">✿</span><span class="flower f2">✿</span><span class="flower f3">✿</span><span class="flower f4">✿</span><span class="flower f5">✿</span><span class="flower f6">✿</span><span class="flower f7">✿</span><span class="flower f8">✿</span></div>
+<div class="glow glow-one" aria-hidden="true"></div><div class="glow glow-two" aria-hidden="true"></div>
+<section class="panel game-panel">
+  <div class="game-head">
+    <div><div class="eyebrow">A CHARADA COMEÇOU</div><h2>Que comecem<br><em>os jogos.</em></h2></div>
+    <div class="timer" role="timer" aria-label="Tempo restante ilustrativo"><small>TEMPO RESTANTE</small><strong>1d 23:59:59</strong></div>
+  </div>
+  <p class="game-intro">kkkkk eita, Rafa, não tem jeito...<br>Que comecem os jogos. Você tem <strong>3 dias</strong>. Se vacilar, só olhará a terra prometida de longe ;(</p>
+  <div class="riddle">
+    <div class="riddle-label">UM ENIGMA PARA VOCÊ <span>✦</span></div>
+    <p class="riddle-hint">“Às vezes, a mensagem não está no que se lê, mas na maneira como tudo começa”</p>
+    <p class="version">Bíblia ACF · Almeida Corrigida Fiel</p>
+    <div class="refs" aria-label="Referências bíblicas em sequência"><div class="refs-line"><span class="ref"><span class="ref-mark" aria-hidden="true">&nbsp;</span><span>João 1:1</span></span><span class="ref"><span class="ref-mark" aria-hidden="true">~</span><span>Salmos 23:4</span></span><span class="ref"><span class="ref-mark" aria-hidden="true">&nbsp;</span><span>Salmos 23:1</span></span></div><div class="refs-line"><span class="ref"><span class="ref-mark" aria-hidden="true">´</span><span>João 8:32</span></span></div><div class="refs-line"><span class="ref"><span class="ref-mark" aria-hidden="true">&nbsp;</span><span>Isaías 41:6</span></span><span class="ref"><span class="ref-mark" aria-hidden="true">&nbsp;</span><span>Isaías 40:31</span></span></div><div class="refs-line"><span class="ref"><span class="ref-mark" aria-hidden="true">&nbsp;</span><span>Mateus 11:28</span></span><span class="ref"><span class="ref-mark" aria-hidden="true">´</span><span>Salmos 32:8</span></span><span class="ref"><span class="ref-mark" aria-hidden="true">&nbsp;</span><span>Jeremias 33:3</span></span><span class="ref"><span class="ref-mark" aria-hidden="true">&nbsp;</span><span>Isaías 55:3</span></span><span class="ref"><span class="ref-mark" aria-hidden="true">&nbsp;</span><span>Salmos 27:1</span></span></div><div class="refs-line"><span class="ref"><span class="ref-mark" aria-hidden="true">&nbsp;</span><span>2 Timóteo 3:16</span></span><span class="ref"><span class="ref-mark" aria-hidden="true">´</span><span>Mateus 5:16</span></span></div></div>
+    <section class="day-one-hint" aria-labelledby="day-one-title">
+      <h3 id="day-one-title">Pois é, já se passou um dia...</h3>
+      <button class="secondary hint-button" id="hint-button" type="button" aria-expanded="false" aria-controls="day-one-message">Preciso de uma diquinha 🐔</button>
+      <p class="revealed-hint" id="day-one-message" hidden>Preste atenção ao início de cada versículo e siga a ordem das referências.</p>
+    </section>
+    <div class="keyword-form" aria-label="Formulário ilustrativo da palavra-chave">
+      <label class="keyword-label" for="keyword-preview">Palavra-chave <span class="keyword-count">(0/8 letras)</span></label>
+      <div class="keyword-entry">
+        <input class="keyword-native-input" id="keyword-preview" type="text" aria-label="Palavra-chave, 8 letras" disabled>
+        <div class="keyword-slots" aria-hidden="true"><span class="keyword-slot"><span class="keyword-letter">&nbsp;</span><span class="keyword-underline"></span></span><span class="keyword-slot"><span class="keyword-letter">&nbsp;</span><span class="keyword-underline"></span></span><span class="keyword-slot"><span class="keyword-letter">&nbsp;</span><span class="keyword-underline"></span></span><span class="keyword-slot"><span class="keyword-letter">&nbsp;</span><span class="keyword-underline"></span></span><span class="keyword-slot"><span class="keyword-letter">&nbsp;</span><span class="keyword-underline"></span></span><span class="keyword-slot"><span class="keyword-letter">&nbsp;</span><span class="keyword-underline"></span></span><span class="keyword-slot"><span class="keyword-letter">&nbsp;</span><span class="keyword-underline"></span></span><span class="keyword-slot"><span class="keyword-letter">&nbsp;</span><span class="keyword-underline"></span></span></div>
+      </div>
+      <button class="primary submit-keyword" type="button" disabled>Confirmar resposta →</button>
+    </div>
+  </div>
+</section>
+</main>
+<script>
+const hintButton = document.getElementById('hint-button');
+const hintMessage = document.getElementById('day-one-message');
+hintButton.addEventListener('click', () => {
+  hintMessage.hidden = false;
+  hintButton.setAttribute('aria-expanded', 'true');
+});
+</script>
+</body>
+</html>
