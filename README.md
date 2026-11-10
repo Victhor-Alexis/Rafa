@@ -130,7 +130,7 @@ Na `RiddleScreen`, abaixo das referências e antes do campo da palavra-chave:
 - Após **24 horas**: “Pois é, já se passou um dia...” e o botão
   “Preciso de uma diquinha 🐔”. Ao clicar, aparece “Preste atenção ao início
   de cada versículo e siga a ordem das referências.”
-- Após **48 horas**: “dois dias...” e o botão “diquinha 2 💅”. Ao clicar,
+- Após **48 horas**: “Dois dias...” e o botão “Diquinha 2💅”. Ao clicar,
   aparece “A frase formada pela charada dos versos foi escrita por você,
   talvez só precise se lembrar do que estava falando”.
 

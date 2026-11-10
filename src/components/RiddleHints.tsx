@@ -13,8 +13,8 @@ const HINTS = [
   },
   {
     id: 'day-two',
-    title: 'dois dias...',
-    button: 'diquinha 2 💅',
+    title: 'Dois dias...',
+    button: 'Diquinha 2💅',
     message: 'A frase formada pela charada dos versos foi escrita por você, talvez só precise se lembrar do que estava falando',
   },
 ] as const;
