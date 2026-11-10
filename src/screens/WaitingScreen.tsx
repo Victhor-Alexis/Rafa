@@ -16,11 +16,10 @@ export function WaitingScreen({ remaining }: WaitingScreenProps) {
       </div>
 
       <p className="game-intro">
-        Pior que precisamos de combustível para essa relação mesmo.
-        Brincadeira, maus hábitos kkkkk
+        kkkkk combustível é importante, mas não resolve tudo!
       </p>
       <p className="game-intro">
-        Precisaremos de combustível, mas não é o suficiente 🫠
+        Mas deixa o combustível só para a aventura 😉
       </p>
       <p className="game-intro waiting-emphasis">
         Você terminou antes, mas vai ter que esperar o prazo de qualquer jeito kkkk
