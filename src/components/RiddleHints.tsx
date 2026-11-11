@@ -9,7 +9,7 @@ const HINTS = [
     id: 'day-one',
     title: 'Pois é, já se passou um dia...',
     button: 'Preciso de uma diquinha 🐔',
-    message: 'Preste atenção ao início de cada versículo e forme uma frase',
+    message: 'Pegue o início de cada versículo e forme uma frase',
   },
   {
     id: 'day-two',
