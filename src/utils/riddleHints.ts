@@ -1,4 +1,5 @@
 const DAY_MS = 24 * 60 * 60 * 1000;
+const LAST_HINT_WINDOW_MS = 12 * 60 * 60 * 1000;
 
 /**
  * Reconstrói o início pelo prazo absoluto e pela duração salva no Supabase.
@@ -20,4 +21,11 @@ export function getRiddleHintCount(
   if (elapsed >= 2 * DAY_MS) return 2;
   if (elapsed >= DAY_MS) return 1;
   return 0;
+}
+
+/** Disponível durante as últimas 12 horas do prazo existente, inclusive ao reabrir. */
+export function isLastRiddleHintAvailable(deadline: number | null, now = Date.now()): boolean {
+  if (deadline === null || !Number.isFinite(deadline) || !Number.isFinite(now)) return false;
+  const remaining = deadline - now;
+  return remaining > 0 && remaining <= LAST_HINT_WINDOW_MS;
 }

@@ -2,6 +2,7 @@ import { useId, useState } from 'react';
 
 interface RiddleHintsProps {
   unlockedCount: number;
+  lastHintAvailable: boolean;
 }
 
 const HINTS = [
@@ -19,16 +20,27 @@ const HINTS = [
   },
 ] as const;
 
+const LAST_HINT = {
+  id: 'last-hours',
+  title: 'Últimas 12 horas. Desistiu? kkkk',
+  button: 'dica 3',
+  message: 'É o cheiro de algo',
+} as const;
+
 /** Exibe somente dicas liberadas; abrir uma dica não altera o estado do jogo. */
-export function RiddleHints({ unlockedCount }: RiddleHintsProps) {
+export function RiddleHints({ unlockedCount, lastHintAvailable }: RiddleHintsProps) {
   const componentId = useId();
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
+  const visibleHints = [
+    ...HINTS.slice(0, Math.max(0, unlockedCount)),
+    ...(lastHintAvailable ? [LAST_HINT] : []),
+  ];
 
-  if (unlockedCount <= 0) return null;
+  if (visibleHints.length === 0) return null;
 
   return (
     <div className="riddle-hints">
-      {HINTS.slice(0, unlockedCount).map((hint) => {
+      {visibleHints.map((hint) => {
         const titleId = `${componentId}-${hint.id}-title`;
         const messageId = `${componentId}-${hint.id}-message`;
         const isRevealed = Boolean(revealed[hint.id]);
