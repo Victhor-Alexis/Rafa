@@ -31,6 +31,7 @@ export function FinalChallengeScreen({ attempts, onAttempt }: FinalChallengeScre
       <div className="riddle final-riddle">
         <div className="riddle-label">DESAFIO MUSICAL <span>♫</span></div>
         <p className="music-hint">C,C,C, C#,C#,C#, C,C,C, A#,A#,A#</p>
+        <p className="attempts">São <strong>notas</strong>, não acordes.</p>
         <p className="attempts">Tentativas disponíveis: <strong>{remainingAttempts}</strong></p>
         <KeywordForm length={7} onSubmit={verify} error={error} />
       </div>
