@@ -5,7 +5,7 @@ import { REFERENCES, SECOND_PASSWORD } from '../constants';
 import { normalizeAnswer } from '../utils/normalizeAnswer';
 import { recordRiddleAttempt } from '../services/supabase';
 import { RiddleHints } from '../components/RiddleHints';
-import { getRiddleHintCount } from '../utils/riddleHints';
+import { getRiddleHintCount, isLastRiddleHintAvailable } from '../utils/riddleHints';
 
 interface RiddleScreenProps {
   remaining: number;
@@ -16,7 +16,9 @@ interface RiddleScreenProps {
 
 export function RiddleScreen({ remaining, deadline, timerDurationSeconds, onSolved }: RiddleScreenProps) {
   const [error, setError] = useState('');
-  const unlockedHints = getRiddleHintCount(deadline, timerDurationSeconds);
+  const now = Date.now();
+  const unlockedHints = getRiddleHintCount(deadline, timerDurationSeconds, now);
+  const lastHintAvailable = isLastRiddleHintAvailable(deadline, now);
 
   function verify(value: string) {
     // O histórico é independente: falha ou lentidão nunca bloqueia a resposta.
@@ -64,7 +66,7 @@ export function RiddleScreen({ remaining, deadline, timerDurationSeconds, onSolv
             </div>
           ))}
         </div>
-        <RiddleHints unlockedCount={unlockedHints} />
+        <RiddleHints unlockedCount={unlockedHints} lastHintAvailable={lastHintAvailable} />
         <KeywordForm length={8} onSubmit={verify} error={error} />
       </div>
     </section>

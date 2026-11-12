@@ -128,15 +128,18 @@ migração, do registro e da leitura do histórico.
 Na `RiddleScreen`, abaixo das referências e antes do campo da palavra-chave:
 
 - Após **24 horas**: “Pois é, já se passou um dia...” e o botão
-  “Preciso de uma diquinha 🐔”. Ao clicar, aparece “Preste atenção ao início
-  de cada versículo e siga a ordem das referências.”
+  “Preciso de uma diquinha 🐔”. Ao clicar, aparece “Pegue o início de cada
+  versículo e forme uma frase”.
 - Após **48 horas**: “Dois dias...” e o botão “Diquinha 2💅”. Ao clicar,
-  aparece “A frase formada pela charada dos versos foi escrita por você,
-  talvez só precise se lembrar do que estava falando”.
+  aparece “A frase formada pela charada dos versos foi digitada por você,
+  quando mencionou o que gostava. Ao que se referia?”.
+- Nas **últimas 12 horas do prazo**: “Últimas 12 horas. Desistiu? kkkk” e
+  o botão “dica 3”. Ao clicar, aparece “É o cheiro de algo”.
 
-A primeira dica permanece disponível quando a segunda é liberada. Cada texto
-fica escondido até o respectivo clique. Abrir as dicas só muda a interface
-local, sem novas requisições, registros de tentativas ou alterações na sessão.
+As dicas anteriores permanecem disponíveis quando uma nova dica é liberada.
+Cada texto fica escondido até o respectivo clique. Abrir as dicas só muda a
+interface local, sem novas requisições, registros de tentativas ou alterações
+na sessão.
 
 Essa atualização **não exige SQL nem novas variáveis de ambiente**. Basta
 publicar o código pelo fluxo normal da Vercel. Uma aba já aberta precisa
@@ -144,14 +147,22 @@ carregar a versão nova. O prazo absoluto continua o mesmo: a publicação e
 a recarga não reiniciam nem prolongam a rodada. As dicas já vencidas ficam
 disponíveis imediatamente, sem esperar mais 24 ou 48 horas desde a atualização.
 
-O início é calculado como `deadline - timer_duration_seconds`. Isso corresponde
+Para as duas primeiras dicas, o início é calculado como
+`deadline - timer_duration_seconds`. Isso corresponde
 ao início da rodada atual, cuja duração foi mantida desde o começo. O banco
 antigo não guarda uma data de início separada: alterar apenas a duração no
 admin durante uma rodada também muda os horários calculados das dicas, mesmo
 se o prazo ativo não for alterado. Para reconstrução independente de futuras
 edições, seria necessário guardar o início original no banco.
 
+A terceira dica depende somente do prazo absoluto: aparece quando faltam
+12 horas ou menos, enquanto ainda há tempo restante. Mesmo se a atualização
+for publicada quando faltarem menos de 12 horas, o botão já ficará disponível
+na primeira carga da versão nova, sem reiniciar nem estender o prazo. Em uma
+rodada mais curta, ela pode aparecer antes das duas primeiras; não as libera
+antecipadamente. O texto “É o cheiro de algo” continua escondido até o clique.
+
 As dicas só são exibidas enquanto a charada tem prazo válido e não venceu.
 O temporizador existente atualiza sua liberação sem recarregar a página.
-Os testes de cálculo cobrem os limites exatos de 24 e 48 horas, recarga e
-prazos ausentes, inválidos ou vencidos.
+Os testes de cálculo cobrem os limites exatos de 24 e 48 horas, as últimas
+12 horas, recarga e prazos ausentes, inválidos ou vencidos.
