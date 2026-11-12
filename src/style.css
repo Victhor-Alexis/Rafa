@@ -313,3 +313,13 @@ html { min-height: 100%; background: #f9d6dd; }
   .riddle-hint-button { width: 100%; padding-left: 10px; padding-right: 10px; }
   .riddle-hint-message { font-size: 13px; padding: 13px 12px; }
 }
+
+/* Dicas automáticas do desafio musical, baseadas nos erros já registrados. */
+.final-attempt-hints { display: grid; gap: 12px; margin: 20px 0 24px; }
+.final-attempt-hint { padding: 17px 18px; border: 1px solid #e6b6c4; border-radius: 16px; background: linear-gradient(135deg, #fff4f7, #fce8ef); }
+.final-attempt-hint h3 { margin: 0 0 8px; color: #a24e69; font-size: 12px; font-weight: 700; line-height: 1.4; }
+.final-attempt-hint p { margin: 0; color: #885267; font-size: 14px; line-height: 1.65; overflow-wrap: anywhere; }
+@media (max-width: 560px) {
+  .final-attempt-hint { padding: 15px 13px; }
+  .final-attempt-hint p { font-size: 13px; }
+}
