@@ -14,7 +14,7 @@ const HINTS = [
   {
     id: 'second-error',
     title: 'Dica após o 2º erro',
-    message: 'Só resta 1? Não está dando tudo de si',
+    message: 'Só resta 1? Não está dando “tudo de si”',
   },
 ] as const;
 
