@@ -8,12 +8,12 @@ interface FinalChallengeHintsProps {
 const HINTS = [
   {
     id: 'first-error',
-    title: 'Dica após o 1º erro',
+    title: 'Dica erro 1',
     message: 'Só restam 2 chances? Toque a melodia antes... muié afobada 😅',
   },
   {
     id: 'second-error',
-    title: 'Dica após o 2º erro',
+    title: 'Dica erro 2',
     message: "Só resta 1? Não está dando 'tudo de si'",
   },
 ] as const;
