@@ -15,7 +15,7 @@ const HINTS = [
     id: 'day-two',
     title: 'Dois dias...',
     button: 'Diquinha 2💅',
-    message: 'A frase formada pela charada dos versos foi digitada por você, quando mencionou o que gostava',
+    message: 'A frase formada pela charada dos versos foi digitada por você, quando mencionou o que gostava. Ao que se referia?',
   },
 ] as const;
 
