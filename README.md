@@ -166,3 +166,29 @@ As dicas só são exibidas enquanto a charada tem prazo válido e não venceu.
 O temporizador existente atualiza sua liberação sem recarregar a página.
 Os testes de cálculo cobrem os limites exatos de 24 e 48 horas, as últimas
 12 horas, recarga e prazos ausentes, inválidos ou vencidos.
+
+## 8. Dicas por erro no desafio musical
+
+Na tela do último desafio, as dicas aparecem automaticamente entre o contador
+de tentativas e o campo da resposta, conforme os erros já salvos no Supabase:
+
+- **Nenhum erro**: nenhuma dica.
+- **Um erro**: aparece a primeira dica.
+- **Dois erros**: aparecem as duas dicas, com uma tentativa restante.
+
+A primeira permanece visível ao liberar a segunda. Uma rodada que já tem dois
+erros recebe ambas ao carregar a versão nova, sem exigir outro envio. Recarregar
+a página não apaga as dicas liberadas, pois a exibição deriva de `finalAttempts`,
+e não de um contador local ou do momento de instalação da atualização.
+
+Exibir ou ler as dicas não faz requisições adicionais, não registra respostas,
+não gasta tentativas e não altera a sessão. O limite continua sendo de três
+erros: o terceiro encerra o desafio pelo fluxo existente; acertar leva à tela
+de sucesso. As dicas do desafio musical são exibidas diretamente, sem botão.
+
+Para ativar, publique o código normalmente na Vercel e carregue a versão nova
+na aba do jogo. Não é necessário executar SQL, reiniciar a rodada ou alterar
+variáveis de ambiente. O histórico e o número atual de tentativas são mantidos.
+
+Os testes de renderização cobrem zero, um e dois erros, tentativas esgotadas
+e contagens inválidas, usando o componente e o limite reais do aplicativo.
