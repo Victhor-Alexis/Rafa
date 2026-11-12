@@ -9,7 +9,7 @@ const HINTS = [
   {
     id: 'first-error',
     title: 'Dica erro 1',
-    message: 'Só restam 2 chances? Toque a melodia antes... muié afobada 😅',
+    message: 'Toque a melodia antes... mulher afobada 😅. Não te lembra nada?',
   },
   {
     id: 'second-error',
