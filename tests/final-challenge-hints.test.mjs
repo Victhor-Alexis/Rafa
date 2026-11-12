@@ -38,17 +38,17 @@ test('nenhuma dica aparece antes do primeiro erro', () => {
 
 test('primeiro erro mostra somente a primeira dica', () => {
   const html = renderHints(1);
-  assert.match(html, /Dica após o 1º erro/);
-  assert.doesNotMatch(html, /Dica após o 2º erro/);
+  assert.match(html, /Dica erro 1/);
+  assert.doesNotMatch(html, /Dica erro 2/);
   assert.equal((html.match(/<section\b/g) || []).length, 1);
   assert.match(html, /<p>[^<]+<\/p>/);
 });
 
 test('carregar com dois erros salvos já mostra as duas dicas, sem esperar outro envio', () => {
   const html = renderHints(2);
-  assert.match(html, /Dica após o 1º erro/);
-  assert.match(html, /Dica após o 2º erro/);
-  assert.ok(html.indexOf('Dica após o 1º erro') < html.indexOf('Dica após o 2º erro'));
+  assert.match(html, /Dica erro 1/);
+  assert.match(html, /Dica erro 2/);
+  assert.ok(html.indexOf('Dica erro 1') < html.indexOf('Dica erro 2'));
   assert.equal((html.match(/<p>[^<]+<\/p>/g) || []).length, 2);
 });
 
