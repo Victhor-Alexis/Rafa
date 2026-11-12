@@ -9,7 +9,7 @@ const HINTS = [
   {
     id: 'first-error',
     title: 'Dica após o 1º erro',
-    message: 'Essa melodia você conhece bem… a escolha não foi por acaso.',
+    message: 'Só restam 2 dicas? Só resta 1? Não está dando tudo de si',
   },
   {
     id: 'second-error',
