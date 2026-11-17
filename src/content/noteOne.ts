@@ -15,7 +15,7 @@ export const NOTE_ONE_PAGES: readonly NoteBookPage[] = [
   },
   {
     "paragraphs": [
-      "Nunca tive problemas com seu passado. Eu te aceitei, totalmente. Acha que não sabia o que já tinha feito?",
+      "Nunca tive problemas com seu passado. Eu te aceitei, totalmente. Sempre apreciei mais o arrependimento, fé, humildade e coragem de reconhecer os próprios erros e seguir por um caminho diferente. Acha que não sabia o que já tinha feito?",
       "Fiz o que estava ao meu alcance para conhecer o máximo que podia antes de tentar me aproximar. Nem sempre uso minhas habilidades para o bem, Deus me perdoe 😅"
     ]
   },
