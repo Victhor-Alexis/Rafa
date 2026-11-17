@@ -192,3 +192,25 @@ variáveis de ambiente. O histórico e o número atual de tentativas são mantid
 
 Os testes de renderização cobrem zero, um e dois erros, tentativas esgotadas
 e contagens inválidas, usando o componente e o limite reais do aplicativo.
+
+## 9. Nota em livro na tela da terra prometida
+
+A tela de encerramento inclui o botão **“Nota #1 - A ressalva 🥶”**. Ao clicar,
+abre um livro modal com oito páginas, o texto integral da nota e a fotografia
+na posição indicada, entre o trecho que termina em “Deus me perdoe 😅” e o
+parágrafo que começa com “Claro, não conhecia todos os detalhes”.
+
+Os controles **Anterior** e **Próxima** e as setas do teclado viram as páginas
+com animação. O botão de fechar e Escape retornam à tela de encerramento.
+Reabrir o livro começa na primeira página. A preferência por movimento reduzido
+desativa as animações; páginas longas têm rolagem interna para manter os
+controles acessíveis no celular e em telas baixas.
+
+O modal mantém o foco na leitura enquanto está aberto e o devolve ao botão ao
+fechar. A leitura e a navegação são locais: não há novos registros, chamadas
+ao Supabase, alteração de etapa ou restauração de tentativas. As atualizações
+normais da sessão não fecham o livro nem reiniciam a página em leitura.
+
+O conteúdo paginado está em `src/content/noteOne.ts`; a fotografia é um arquivo
+estático em `public/assets/`. Para publicar, use o fluxo habitual do GitHub e
+Vercel. Essa funcionalidade não exige SQL nem novas variáveis de ambiente.
