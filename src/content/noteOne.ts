@@ -40,7 +40,7 @@ export const NOTE_ONE_PAGES: readonly NoteBookPage[] = [
   },
   {
     "paragraphs": [
-      "Se as conversas virtuais já eram boas, imagina se tivéssemos aprendido a desfrutar mais da presença um do outro, sem inseguranças e ansiedade? Bom, acho que não adianta ficar só imaginando, talvez simplesmente não fosse para ser, ou talvez não fosse a hora. Quem é que sabe, só Deus mesmo."
+      "Se as conversas virtuais já eram boas, imagina se tivéssemos aprendido a desfrutar mais da presença um do outro, sem inseguranças e ansiedade? Bom, acho que não adianta ficar só imaginando, talvez simplesmente não fosse para ser. Quem é que sabe, só Deus mesmo."
     ]
   }
 ];

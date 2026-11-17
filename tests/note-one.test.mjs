@@ -14,8 +14,8 @@ const normalize = (text) => text.normalize('NFC').replace(/\s+/gu, ' ').trim();
 
 test('a nota conserva integralmente a revisão autorizada e a ordem do texto', () => {
   const fullText = NOTE_ONE_PAGES.flatMap((page) => page.paragraphs).join('\n\n');
-  // SHA-256 da base 117892d com a abertura autorizada, normalizando Unicode e espaços.
-  const approvedChecksum = '820e394761799d0ffb778904b3a4b4d88ba7f82aa5a25a135e1953b24669743f';
+  // SHA-256 da base 11c8113 com a remoção autorizada no final, normalizando Unicode e espaços.
+  const approvedChecksum = 'b641ae3fe5aa8318294b2dce4b893b60d8cd45389ee92c9528c2f4c302d540a6';
   const checksum = createHash('sha256').update(normalize(fullText), 'utf8').digest('hex');
   assert.equal(checksum, approvedChecksum);
 });
