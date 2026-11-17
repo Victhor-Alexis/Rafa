@@ -21,10 +21,10 @@ export const NOTE_ONE_PAGES: readonly NoteBookPage[] = [
   },
   {
     "image": {
-      "src": "/assets/note-one-photo.jpg",
+      "src": "/assets/Coelha.jpg",
       "alt": "Foto anexada à nota, com orelhas de coelha.",
-      "width": 625,
-      "height": 1280
+      "width": 214,
+      "height": 438
     },
     "paragraphs": [
       "Claro, não conhecia todos os detalhes, mas não era difícil imaginar olhando os contextos..."
