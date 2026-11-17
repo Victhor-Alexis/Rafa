@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
-import path from 'node:path';
 import test from 'node:test';
 import ts from 'typescript';
 
@@ -13,48 +12,23 @@ const { NOTE_ONE_PAGES } = await import(`data:text/javascript;base64,${Buffer.fr
 
 const normalize = (text) => text.normalize('NFC').replace(/\s+/gu, ' ').trim();
 
-test('a nota conserva integralmente o texto e a ordem fornecidos, independentemente das páginas', () => {
+test('a nota conserva integralmente a revisão autorizada e a ordem do texto', () => {
   const fullText = NOTE_ONE_PAGES.flatMap((page) => page.paragraphs).join('\n\n');
-  // SHA-256 do texto original, normalizando somente Unicode e espaços em branco.
-  const originalChecksum = '72a121522b3721cbad30c0da159b750326320949c2350e7c9097f883e97a11e2';
+  // SHA-256 da base e6449da com as alterações autorizadas, normalizando Unicode e espaços.
+  const approvedChecksum = '2ee99a0c48b14b209a8ea8305bd9e7674ef1dd456540216a8ef5375c067db999';
   const checksum = createHash('sha256').update(normalize(fullText), 'utf8').digest('hex');
-  assert.equal(checksum, originalChecksum);
+  assert.equal(checksum, approvedChecksum);
 });
 
-test('a foto aparece entre o trecho sobre as habilidades e o parágrafo iniciado por Claro', () => {
-  const content = NOTE_ONE_PAGES.flatMap((page) => [
-    ...(page.image ? [{ type: 'image', value: page.image }] : []),
-    ...page.paragraphs.map((paragraph) => ({ type: 'text', value: normalize(paragraph) })),
-  ]);
-  const images = content.filter((item) => item.type === 'image');
-  assert.equal(images.length, 1, 'A nota deve conter a foto fornecida uma única vez.');
-  const photoIndex = content.findIndex((item) => item.type === 'image');
-  const before = content[photoIndex - 1];
-  const after = content[photoIndex + 1];
-  assert.equal(before?.type, 'text');
-  assert.match(before.value, /Nem sempre uso minhas habilidades para o bem, Deus me perdoe 😅$/u);
-  assert.equal(after?.type, 'text');
-  assert.match(after.value, /^Claro, não conhecia todos os detalhes/u);
-});
-
-test('toda foto referenciada existe como arquivo de imagem JPEG, PNG ou WebP', async () => {
-  for (const { image } of NOTE_ONE_PAGES.filter((page) => page.image)) {
-    assert.match(image.src, /^\/assets\//, 'A foto deve apontar para um recurso local público.');
-    assert.ok(image.alt.trim(), 'A foto precisa de descrição acessível.');
-    assert.ok(Number.isInteger(image.width) && image.width > 0);
-    assert.ok(Number.isInteger(image.height) && image.height > 0);
-
-    const bytes = await readFile(new URL(`../public${image.src}`, import.meta.url));
-    const extension = path.extname(image.src).toLowerCase();
-    const isJpeg = bytes.length > 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
-    const isPng = bytes.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
-    const isWebp = bytes.length >= 12 && bytes.toString('ascii', 0, 4) === 'RIFF' && bytes.toString('ascii', 8, 12) === 'WEBP';
-    assert.ok(isJpeg || isPng || isWebp, `${image.src} precisa conter uma imagem suportada.`);
-    assert.ok(
-      (isJpeg && ['.jpg', '.jpeg'].includes(extension)) ||
-      (isPng && extension === '.png') ||
-      (isWebp && extension === '.webp'),
-      'A extensão da foto deve corresponder ao formato real do arquivo.',
-    );
+test('a revisão não deixa páginas vazias nem imagens na nota', () => {
+  assert.ok(NOTE_ONE_PAGES.length > 0);
+  for (const page of NOTE_ONE_PAGES) {
+    assert.equal(page.image, undefined);
+    assert.ok(page.paragraphs.length > 0);
+    assert.ok(page.paragraphs.every((paragraph) => normalize(paragraph).length > 0));
   }
+});
+
+test('a foto removida não permanece nos recursos públicos usados pelo build', async () => {
+  await assert.rejects(readFile(new URL('../public/assets/Coelha.jpg', import.meta.url)), { code: 'ENOENT' });
 });

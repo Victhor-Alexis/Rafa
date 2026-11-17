@@ -10,29 +10,17 @@ export const NOTE_ONE_PAGES: readonly NoteBookPage[] = [
   {
     "paragraphs": [
       "Se está vendo isso, provavelmente já faz um tempo que está olhando a terra prometida de longe kkkk",
-      "Já devemos ter seguido nossos próprios caminhos, separados. Provavelmente nunca lerá isso, então não faz diferença a essa altura."
+      "Já devemos ter seguido nossos próprios caminhos, separados. Não sei se você vai ler isso, mas quis deixar algumas coisas mais claras."
     ]
   },
   {
     "paragraphs": [
-      "Nunca tive problemas com seu passado. Eu te aceitei, totalmente. Sempre apreciei mais o arrependimento, fé, humildade e coragem de reconhecer os próprios erros e seguir por um caminho diferente. Acha que não sabia o que já tinha feito?",
-      "Fiz o que estava ao meu alcance para conhecer o máximo que podia antes de tentar me aproximar. Nem sempre uso minhas habilidades para o bem, Deus me perdoe 😅"
-    ]
-  },
-  {
-    "image": {
-      "src": "/assets/Coelha.jpg",
-      "alt": "Foto anexada à nota, com orelhas de coelha.",
-      "width": 214,
-      "height": 438
-    },
-    "paragraphs": [
-      "Claro, não conhecia todos os detalhes, mas não era difícil imaginar olhando os contextos..."
+      "Nunca tive problemas com seu passado. Eu te aceitei, totalmente. Eu admirava sua fé, sua humildade e sua coragem de reconhecer os próprios erros e seguir um caminho diferente."
     ]
   },
   {
     "paragraphs": [
-      "Mas eu sentia que fazia parte do meu propósito de vida. Errei em brincar com algo que não tinha entendido que te machucava tanto, quando falei que era saliente. Você me chamava de saliente toda vez kkkk afinal, ser só um pouquinho não é ruim, é? Mals, parei."
+      "Mas eu sentia que fazia parte do meu propósito de vida. Errei em brincar com algo que não tinha entendido que te machucava tanto, quando falei que era saliente. Você também me chamava assim, e eu achei que havia espaço para essa brincadeira. Não percebi como aquilo te atingia. Faltou sensibilidade da minha parte."
     ]
   },
   {
