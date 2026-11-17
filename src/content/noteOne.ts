@@ -10,7 +10,7 @@ export const NOTE_ONE_PAGES: readonly NoteBookPage[] = [
   {
     "paragraphs": [
       "Se está vendo isso, provavelmente já faz um tempo que está olhando a terra prometida de longe kkkk",
-      "Já devemos ter seguido nossos próprios caminhos, separados. Não sei se você vai ler isso, mas quis deixar algumas coisas mais claras."
+      "Já devemos ter seguido nossos próprios caminhos, separados. Nem deve chegar a ler isso mesmo kkkk então fica aqui no esquecimento, uma clareza"
     ]
   },
   {
@@ -20,7 +20,7 @@ export const NOTE_ONE_PAGES: readonly NoteBookPage[] = [
   },
   {
     "paragraphs": [
-      "Mas eu sentia que fazia parte do meu propósito de vida. Errei em brincar com algo que não tinha entendido que te machucava tanto, quando falei que era saliente. Você também me chamava assim, e eu achei que havia espaço para essa brincadeira. Não percebi como aquilo te atingia. Faltou sensibilidade da minha parte."
+      "Eu sentia que fazia parte do meu propósito de vida. Errei em brincar com algo que não tinha entendido que te machucava tanto, quando falei que era saliente. Você também me chamava assim, e eu achei que havia espaço para essa brincadeira. Não percebi como aquilo te atingia. Faltou sensibilidade da minha parte."
     ]
   },
   {
