@@ -10,7 +10,7 @@ export const NOTE_ONE_PAGES: readonly NoteBookPage[] = [
   {
     "paragraphs": [
       "Se está vendo isso, provavelmente já faz um tempo que está olhando a terra prometida de longe kkkk",
-      "Já devemos ter seguido nossos próprios caminhos, separados. Não sei se você vai ler isso, mas quis deixar algumas coisas mais claras."
+      "Já devemos ter seguido nossos próprios caminhos, separados. Nem deve chegar a ler isso mesmo kkkk então fica aqui no esquecimento, uma clareza"
     ]
   },
   {

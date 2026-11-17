@@ -14,8 +14,8 @@ const normalize = (text) => text.normalize('NFC').replace(/\s+/gu, ' ').trim();
 
 test('a nota conserva integralmente a revisão autorizada e a ordem do texto', () => {
   const fullText = NOTE_ONE_PAGES.flatMap((page) => page.paragraphs).join('\n\n');
-  // SHA-256 da base 1e37c73 sem o "Mas" de "Mas eu sentia", normalizando Unicode e espaços.
-  const approvedChecksum = '30211bd97cf52194e5547132e218ac8543f5a93751ec3d6a98566cceb07a7718';
+  // SHA-256 da base 117892d com a abertura autorizada, normalizando Unicode e espaços.
+  const approvedChecksum = '820e394761799d0ffb778904b3a4b4d88ba7f82aa5a25a135e1953b24669743f';
   const checksum = createHash('sha256').update(normalize(fullText), 'utf8').digest('hex');
   assert.equal(checksum, approvedChecksum);
 });
