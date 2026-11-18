@@ -195,8 +195,13 @@ e contagens inválidas, usando o componente e o limite reais do aplicativo.
 
 ## 9. Nota em livro na tela da terra prometida
 
-A tela de encerramento inclui o botão **“Nota #1 - A ressalva 🥶”**. Ao clicar,
-abre um livro modal com sete páginas e o texto da nota, sem fotografia.
+O botão **“Nota #1 - A ressalva 🥶”** está temporariamente oculto na tela de
+encerramento. O componente do livro, os estilos e o conteúdo foram preservados.
+Para reativar a nota, altere `SHOW_NOTE_ONE` para `true` em
+`src/screens/EndingScreen.tsx` e publique a atualização.
+
+Quando habilitado, o botão abre um livro modal com sete páginas e o texto da
+nota, sem fotografia.
 
 Os controles **Anterior** e **Próxima** e as setas do teclado viram as páginas
 com animação. O botão de fechar e Escape retornam à tela de encerramento.
