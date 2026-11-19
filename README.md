@@ -217,3 +217,24 @@ normais da sessão não fecham o livro nem reiniciam a página em leitura.
 O conteúdo paginado está em `src/content/noteOne.ts`. Para publicar, use o
 fluxo habitual do GitHub e Vercel. Essa funcionalidade não exige SQL nem novas
 variáveis de ambiente.
+
+## 10. Tela pública congelada na terra prometida
+
+`FREEZE_PUBLIC_GAME` está habilitado em `src/config/game.ts`. Enquanto estiver
+ativo, o endereço público mostra diretamente a tela da terra prometida,
+independentemente da etapa salva no Supabase, inclusive depois de um reinício
+administrativo. O botão da nota continua oculto.
+
+Nesse modo, a tela pública não consulta a sessão, não avança o jogo e não
+inicia o cronômetro nem as atualizações periódicas. Ela também funciona sem
+configuração ou conexão com o Supabase. O painel `/admin` mantém seu
+funcionamento normal.
+
+Esse bloqueio fixa a tela pública da versão publicada e não altera os dados
+no banco nem recupera a rodada anterior ao reinício. Para liberar o jogo após
+autorização, altere `FREEZE_PUBLIC_GAME` para `false` e publique novamente.
+O aplicativo voltará a usar a etapa e os dados que estiverem salvos naquele
+momento. Não é necessário executar SQL ou reiniciar a sessão.
+
+Após o deploy, abas que já estavam abertas precisam recarregar a página para
+receber a nova versão e o bloqueio.
