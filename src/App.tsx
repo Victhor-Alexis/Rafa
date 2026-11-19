@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Blossoms } from './components/Blossoms';
+import { FREEZE_PUBLIC_GAME } from './config/game';
 import { useChallengeTimer } from './hooks/useChallengeTimer';
 import { AdminScreen } from './screens/AdminScreen';
 import { EndingScreen } from './screens/EndingScreen';
@@ -18,10 +19,11 @@ export default function App() {
   const [session, setSession] = useState<GameSession | null>(null);
   const [error, setError] = useState('');
   const isAdmin = window.location.pathname.replace(/\/$/, '') === '/admin';
+  const isPublicGameFrozen = FREEZE_PUBLIC_GAME && !isAdmin;
   const inFlight = useRef(false);
 
   const refresh = useCallback(async () => {
-    if (inFlight.current) return;
+    if (isPublicGameFrozen || inFlight.current) return;
     try {
       const next = await fetchGameSession();
       setSession(next);
@@ -29,9 +31,10 @@ export default function App() {
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Não foi possível carregar o progresso.');
     }
-  }, []);
+  }, [isPublicGameFrozen]);
 
   useEffect(() => {
+    if (isPublicGameFrozen) return;
     void refresh();
     const id = window.setInterval(() => void refresh(), POLL_INTERVAL_MS);
     const onFocus = () => void refresh();
@@ -43,10 +46,10 @@ export default function App() {
       window.removeEventListener('focus', onFocus);
       document.removeEventListener('visibilitychange', onVisible);
     };
-  }, [refresh]);
+  }, [refresh, isPublicGameFrozen]);
 
   const advance = useCallback(async (action: GameAction, answer = '', date?: string, time?: string) => {
-    if (inFlight.current) return;
+    if (isPublicGameFrozen || inFlight.current) return;
     inFlight.current = true;
     setError('');
     try {
@@ -56,12 +59,12 @@ export default function App() {
     } finally {
       inFlight.current = false;
     }
-  }, [refresh]);
+  }, [refresh, isPublicGameFrozen]);
 
   const expireTimer = useCallback(() => { void refresh(); }, [refresh]);
-  const stage = session?.stage || 'login';
+  const stage = isPublicGameFrozen ? 'ending' : session?.stage || 'login';
   const remaining = useChallengeTimer(
-    session && (stage === 'riddle' || stage === 'waiting') ? session.deadline : null,
+    !isPublicGameFrozen && session && (stage === 'riddle' || stage === 'waiting') ? session.deadline : null,
     expireTimer,
   );
 
@@ -71,7 +74,9 @@ export default function App() {
       <div className="glow glow-one" aria-hidden="true" />
       <div className="glow glow-two" aria-hidden="true" />
 
-      {!isSupabaseConfigured ? (
+      {isPublicGameFrozen ? (
+        <EndingScreen />
+      ) : !isSupabaseConfigured ? (
         <section className="panel loading-panel" role="alert">
           <h2>Configuração pendente</h2>
           <p>Configure as variáveis VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY na Vercel.</p>
